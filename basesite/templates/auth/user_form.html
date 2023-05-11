@@ -1,0 +1,64 @@
+{% extends 'basesite/base.html' %}
+
+
+{% block body %}
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <h1 class="mt-5">Sign Up</h1>
+                    <form method="post" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <div class="row mb-3">
+                            <label for="id_username" class="col-sm-2 col-form-label">Login</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="username"
+                                       maxlength="150"
+                                       autocapitalize="none" autocomplete="username" autofocus="" required=""
+                                       id="id_username">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="id_email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control" name="email"
+                                       maxlength="254" id="id_email">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="id_password1" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" name="password1" autocomplete="new-password" required=""
+                                       id="id_password1">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="id_password2" class="col-sm-2 col-form-label">Repeat Password</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" name="password2" autocomplete="new-password" required=""
+                                       id="id_password2">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="id_avatar" class="col-sm-2 col-form-label">Avatar</label>
+                            <div class="col-sm-6">
+                                <input type="file" class="form-control" name="avatar" accept="image/*" id="id_avatar">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Enter</button>
+                    </form>
+                </div>
+                <div class="col-lg-2">
+                    {% include 'basesite/trending_column.html' %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

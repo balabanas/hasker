@@ -1,0 +1,42 @@
+{% extends 'basesite/base.html' %}
+{% block body %}
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <h1 class="mt-5">Log In</h1>
+                    <form method="post">
+                        {% csrf_token %}
+
+                        <div class="row mb-3">
+                            <label for="id_username" class="col-sm-2 col-form-label">Login</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="username"
+                                       maxlength="150"
+                                       autocapitalize="none" autocomplete="username" autofocus="" required=""
+                                       id="id_username">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="id_password" class="col-sm-2 col-form-label">Password</label>
+                            <div class="col-sm-6">
+                                <input type="password" class="form-control" name="password"
+                                       autocapitalize="none" autocomplete="current-password" required=""
+                                       id="id_password">
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+
+                </div>
+                <div class="col-lg-2">
+                    {% include 'basesite/trending_column.html' %}
+
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

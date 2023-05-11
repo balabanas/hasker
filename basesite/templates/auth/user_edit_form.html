@@ -1,0 +1,61 @@
+{% extends 'basesite/base.html' %}
+
+
+{% block body %}
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <h1 class="mt-5">Settings</h1>
+                    <form method="post" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        <div class="row mb-3">
+                            <label for="id_username" class="col-sm-2 col-form-label">Login</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control" name="username" value="{{ object.username }}"
+                                       maxlength="150" aria-label="Disabled login field" disabled
+                                       autocapitalize="none" autocomplete="username" autofocus="" required=""
+                                       id="id_username">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="id_email" class="col-sm-2 col-form-label">Email</label>
+                            <div class="col-sm-6">
+                                <input type="email" class="form-control" name="email" value="{{ object.email }}"
+                                       maxlength="254" id="id_email">
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+
+                            <label for="id_avatar" class="col-sm-2 col-form-label">Avatar</label>
+                            <div class="col-auto">
+                                <input type="file" class="form-control" name="avatar" accept="image/*"
+                                       id="id_avatar" placeholder="test">
+                            </div>
+                            {% if object.userprofile.avatar %}
+                                <div class="col-auto">
+                                    <label for="id_clear_avatar" class="col-sm-5 col-form-label">or clear</label>
+                                    <input type="checkbox" class="form-check-input" name="clear_avatar"
+                                           id="id_clear_avatar">
+                                </div>
+                                <div class="col-auto">
+                                    <img src="{{ object.userprofile.avatar.url }}" alt="{{ object.username }} avatar"
+                                         class="img-responsive" height="100"/>
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enter</button>
+                    </form>
+
+                </div>
+                <div class="col-lg-2">
+                    {% include 'basesite/trending_column.html' %}
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock %}

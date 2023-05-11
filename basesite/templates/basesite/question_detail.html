@@ -1,0 +1,156 @@
+{% extends 'basesite/base.html' %}
+{% load humanize %}
+{% block body %}
+
+    <main class="flex-shrink-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-10">
+                    <h1 class="mt-5">{{ object.title }}</h1>
+                    <div class="row">
+                        <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
+                            <div class="row"><i class="bi bi-chevron-up q-upvote"></i></div>
+                            <div class="row q-votes" style="display: block;">{{ object.votes }}</div>
+                            <div class="row"><i class="bi bi-chevron-down q-downvote"></i></div>
+                        </div>
+                        <div class="col-md-8">
+                            <p>{{ object.message }}</p>
+                            <p>{% for tag in object.tags.all %}<a href="{% url 'tag-list' tag.slug %}"><span
+                                    class="badge bg-primary">{{ tag.tag }}</span></a> {% endfor %}</p>
+                            <p>{{ object.author.username }}</p>
+
+                        </div>
+                    </div>
+                    <hr>
+
+                    <script>
+                        const question_id = {{ object.id }};
+
+                        function update_votes(instance_type, instance_id, increment) {
+                            $.ajax({
+                                url: "/question-vote/" + question_id,
+                                type: "post",
+                                data: {
+                                    instance_type: instance_type,
+                                    instance_id: instance_id,
+                                    increment: increment,
+                                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                                },
+                                dataType: 'json',
+                                success: function (res) {
+                                    let _count_selector = $((instance_type === 'q' ? ".q-votes" : ".a-votes-" + instance_id))
+                                    let _prev_votes = _count_selector.text();
+                                    console.log(res);
+                                    if (res.result === 'Login required') {
+                                        $('#votingResultModal .modal-body').html('You should <a href="{% url "login" %}?next={% url "question-detail" object.id %}">login</a> first');
+                                        $('#votingResultModal').modal('show');
+                                    } else if (res.result === 'Success') {
+                                        _count_selector.text(parseInt(_prev_votes) + increment);
+                                    } else if (res.result === 'Already voted') {
+                                        $('#votingResultModal').modal('show');
+                                    }
+                                }
+                            })
+                        }
+
+                        $(".q-upvote").on('click', function () {
+                            update_votes('q', {{ object.id }}, 1);
+                        })
+                        $(".q-downvote").on('click', function () {
+                            update_votes('q', {{ object.id }}, -1);
+                        })
+                    </script>
+
+
+                    {% for answer in page_obj %}
+                        <div class="row">
+                            <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
+                                <div class="row"><i class="bi bi-chevron-up a-upvote" data-answer="{{ answer.id }}"></i>
+                                </div>
+                                <div class=" row a-votes-{{ answer.id }}" style="display: block;">{{ answer.votes }}
+                                </div>
+                                <div class="row"><i class="bi bi-chevron-down a-downvote"
+                                                    data-answer="{{ answer.id }}"></i></div>
+                            </div>
+                            <div class=" col-md-8">
+                                <p>{{ answer.message }}</p>
+                                <p>{{ answer.author.username }}</p>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+
+                    <script>
+                        $(".a-upvote").on('click', function () {
+                            const answer_id = $(this).data('answer')
+                            update_votes('a', answer_id, 1);
+                        })
+                        $(".a-downvote").on('click', function () {
+                            const answer_id = $(this).data('answer')
+                            update_votes('a', answer_id, -1);
+                        })
+                    </script>
+
+                    <nav aria-label="Page navigation (pagination)">
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                {% if page_obj.previous_page_number != 1 %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page=1">First</a>
+                                    </li>
+                                {% endif %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                                </li>
+                            {% endif %}
+
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1"
+                                   aria-disabled="true">{{ page_obj.number }}</a>
+                            </li>
+
+                            {% if page_obj.has_next %}
+                                <li class="page-item"><a class="page-link"
+                                                         href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                                </li>
+                                {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% if request.user.is_authenticated %}
+                        <div class="mb-3">
+                            {% include 'basesite/answer_form.html' %}
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="col-lg-2">
+                    {% include 'basesite/trending_column.html' %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="votingResultModal" tabindex="-1" aria-labelledby="votingResultModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="votingResultModalLabel">Voting error</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Already voted!
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+{% endblock %}

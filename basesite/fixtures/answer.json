@@ -1,0 +1,1 @@
+[{"model": "basesite.answer", "pk": 1, "fields": {"message": "Answer message 1", "author": 1, "date_created": "2023-04-27T12:00:00Z", "question": 1, "correct": true}}, {"model": "basesite.answer", "pk": 2, "fields": {"message": "Answer message 2", "author": 2, "date_created": "2023-04-27T13:00:00Z", "question": 1, "correct": false}}]

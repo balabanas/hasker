@@ -1,0 +1,10 @@
+<form class="row g-3" method="post">
+    <div class="col-md-8">
+        {% csrf_token %}
+        <label class="form-label" for="id_message">Your answer</label>
+        <textarea class="form-control" name="message" rows="4" required="" id="id_message"></textarea>
+    </div>
+    <div class="col-md-12">
+        <input class="btn btn-primary" type="submit" value="Submit">
+    </div>
+</form>

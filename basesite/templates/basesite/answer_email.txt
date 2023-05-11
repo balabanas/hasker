@@ -1,0 +1,4 @@
+You've got a new answer to your question "{{ answer.question.title }}":
+   {{ answer.message|truncatewords:7 }}
+Follow the link to read it:
+{% if request.is_secure %}https://{% else %}http://{% endif %}{{ domain }}{{ answer.question.get_absolute_url }}

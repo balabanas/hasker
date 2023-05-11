@@ -1,0 +1,24 @@
+[
+  {
+    "model": "basesite.question",
+    "pk": 1,
+    "fields": {
+      "message": "Question message 1",
+      "author": 1,
+      "date_created": "2023-04-27T10:00:00Z",
+      "title": "Question title 1",
+      "tags": [1, 2]
+    }
+  },
+  {
+    "model": "basesite.question",
+    "pk": 2,
+    "fields": {
+      "message": "Question message 2",
+      "author": 2,
+      "date_created": "2023-04-27T11:00:00Z",
+      "title": "Question title 2",
+      "tags": [2]
+    }
+  }
+]

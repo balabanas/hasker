@@ -1,0 +1,18 @@
+[
+  {
+    "model": "basesite.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": 1,
+      "avatar": "avatars/avatar1.jpg"
+    }
+  },
+  {
+    "model": "basesite.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": 2,
+      "avatar": "avatars/avatar2.jpg"
+    }
+  }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "model": "basesite.tag",
+    "pk": 1,
+    "fields": {
+      "tag": "Tag1"
+    }
+  },
+  {
+    "model": "basesite.tag",
+    "pk": 2,
+    "fields": {
+      "tag": "Tag2"
+    }
+  }
+]
