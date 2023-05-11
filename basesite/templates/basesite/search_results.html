@@ -1,71 +1,17 @@
 {% extends 'basesite/base.html' %}
-{% load humanize %}
 {% block body %}
 
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <h1 class="mt-5">Search results</h1>
-                    <ul>
-                        {% for question in page_obj %}
-
-                            <li>{{ question.votes }} votes | {{ question.answers.count }} answers <a
-                                    href="{% url 'question-detail' question.id %}">{{ question.title }}</a>
-                                {% for tag in question.tags.all %}
-                                    <ul>
-                                        <li>{{ tag.tag }}</li>
-                                    </ul>
-                                {% endfor %}
-                                {% if user.userprofile.avatar %}
-                                    <img src="{{ question.author.userprofile.avatar.url }}"
-                                         alt="{{ question.author.username }} avatar" class="rounded-circle"
-                                         height="32"/>
-                                {% endif %}
-                                {{ question.author.username }} {{ question.date_created|naturaltime }}
-                            </li>
-                        {% endfor %}
-                    </ul>
-
-                    <nav aria-label="Page navigation (pagination)">
-                        <ul class="pagination justify-content-center">
-                            {% if page_obj.has_previous %}
-                                {% if page_obj.previous_page_number != 1 %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page=1&ordering={{ request.GET.ordering }}">First</a>
-                                    </li>
-                                {% endif %}
-                                <li class="page-item"><a class="page-link"
-                                                         href="?page={{ page_obj.previous_page_number }}&ordering={{ request.GET.ordering }}">{{ page_obj.previous_page_number }}</a>
-                                </li>
-                            {% endif %}
-
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1"
-                                   aria-disabled="true">{{ page_obj.number }}</a>
-                            </li>
-
-                            {% if page_obj.has_next %}
-                                <li class="page-item"><a class="page-link"
-                                                         href="?page={{ page_obj.next_page_number }}&ordering={{ request.GET.ordering }}">{{ page_obj.next_page_number }}</a>
-                                </li>
-                                {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page={{ page_obj.paginator.num_pages }}&ordering={{ request.GET.ordering }}">Last</a>
-                                    </li>
-                                {% endif %}
-                            {% endif %}
-                        </ul>
-                    </nav>
-
-
+                    {% include 'basesite/question_column.html' %}
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2 offset-lg-1">
                     {% include 'basesite/trending_column.html' %}
                 </div>
             </div>
         </div>
-
-
     </main>
 {% endblock %}

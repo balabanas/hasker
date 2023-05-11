@@ -17,6 +17,11 @@
                             <p>{{ object.message }}</p>
                             <p>{% for tag in object.tags.all %}<a href="{% url 'tag-list' tag.slug %}"><span
                                     class="badge bg-primary">{{ tag.tag }}</span></a> {% endfor %}</p>
+                        {% if object.author.userprofile.avatar %}
+                                    <img src="{{ object.author.userprofile.avatar.url }}"
+                                         alt="{{ object.author.username }} avatar" class="rounded-circle"
+                                         height="32"/>
+                                {% endif %}
                             <p>{{ object.author.username }}</p>
 
                         </div>
@@ -74,6 +79,11 @@
                             </div>
                             <div class=" col-md-8">
                                 <p>{{ answer.message }}</p>
+                                {% if answer.author.userprofile.avatar %}
+                                    <img src="{{ answer.author.userprofile.avatar.url }}"
+                                         alt="{{ answer.author.username }} avatar" class="rounded-circle"
+                                         height="32"/>
+                                {% endif %}
                                 <p>{{ answer.author.username }}</p>
                             </div>
                         </div>

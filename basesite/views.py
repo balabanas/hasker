@@ -24,16 +24,18 @@ from basesite.models import Question, Answer, QuestionVotedBy, AnswerVotedBy, Ta
 class QuestionListView(ListView):
     model = Question
     paginate_by = 20
+    ordering = '-date_created'
 
     def get_ordering(self):
         ordering = self.request.GET.get('ordering', '-date_created')
         if ordering in ['-date_created', '-votes']:
-            return ordering
-        return '-date_created'
+            self.ordering = ordering
+        return self.ordering
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
+        context['ordering'] = self.ordering
         return context
 
 
