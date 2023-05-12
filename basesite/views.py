@@ -17,8 +17,14 @@ from django.views.generic.detail import SingleObjectMixin, DetailView
 from django.views.generic.edit import FormMixin, FormView, CreateView, UpdateView
 from django.views.generic.list import ListView, MultipleObjectMixin
 
-from basesite.forms import QuestionCreateForm, AnswerForm, UserProfileForm, UserProfileChangeForm
+from basesite.forms import QuestionCreateForm, AnswerForm, UserProfileForm, UserProfileChangeForm, QCF
 from basesite.models import Question, Answer, QuestionVotedBy, AnswerVotedBy, Tag, UserProfile
+
+
+class QCV(CreateView):
+    model = Question
+    form_class = QCF
+    template_name = 'basesite/qcv.html'
 
 
 class QuestionListView(ListView):
@@ -187,7 +193,7 @@ def question_vote(request, pk):
 @require_GET
 def tag_typeahead(request):
     value = request.GET['query']
-    tag_candidates = Tag.objects.filter(tag__icontains=value).values('id', 'tag')
+    tag_candidates = Tag.objects.filter(tag__icontains=value).values('id', 'tag')[:7]
     result = [{"value": tc['tag'], "label": tc['tag']} for tc in tag_candidates]
     print(result)
 

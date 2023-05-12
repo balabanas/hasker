@@ -6,6 +6,36 @@ from basesite import models
 from basesite.models import Tag, Answer, UserProfile
 
 
+class QCF(forms.ModelForm):
+    class Meta:
+        model = models.Question
+        fields = ['title', 'message', 'tags']
+
+    def clean_tags(self):
+        data = self.data.getlist('tags')
+        if len(data) > self.Meta.model.max_tags:
+            print('validation error')
+            raise forms.ValidationError({'tags': f"Maximum number of tags: {self.Meta.model.max_tags}"})
+        print('Data in clean_tags: ', data)
+        cleaned_tags = []
+        for tag in data:
+            tag_object, _ = self.Meta.model.tags.field.related_model.objects.get_or_create(tag=tag.strip())
+            print(tag_object)
+            cleaned_tags.append(tag_object)
+        return cleaned_tags
+
+    def clean(self):
+        print('in clean...')
+        cleaned_data = super(QCF, self).clean()
+        if 'tags' in self.errors:
+            del self.errors['tags']
+        cleaned_tags = self.clean_tags()
+        cleaned_data['tags'] = cleaned_tags
+        # print('tags', tags)
+        print('errors', self.errors)
+        return cleaned_data
+
+
 class QuestionCreateForm(forms.ModelForm):
     class Meta:
         model = models.Question
@@ -20,33 +50,24 @@ class QuestionCreateForm(forms.ModelForm):
     #     tag_objects_db = Tag.objects.filter(tag__in=data)
     #     return tag_objects_db
 
-    def clean(self):
+    def clean_tags(self):
         data = self.data.getlist('tags')
-        tag_objects_new = [Tag(tag=tag, slug=slugify(tag)) for tag in data]
-        print(tag_objects_new, data)
-        for tag_object in tag_objects_new:
-            print(tag_object.tag)
-            print(tag_object.slug)
-            print('-----')
-            tag = Tag.objects.get_or_create(tag=tag_object.tag)
-            print(tag)
-        # Tag.objects.bulk_create(tag_objects_new, ignore_conflicts=True)
-        tag_objects_db = Tag.objects.filter(tag__in=data)
-        # print(tag_objects_db)
+        if len(data) > self.Meta.model.max_tags:
+            raise forms.ValidationError({'tags': f"Maximum number of tags: {self.Meta.model.max_tags}"})
+        cleaned_tags = []
+        for tag in data:
+            tag_object, _ = self.Meta.model.tags.field.related_model.objects.get_or_create(tag=tag.strip())
+            cleaned_tags.append(tag_object)
+        return cleaned_tags
 
-
-        cleaned_data = super().clean()
-        # print(cleaned_data)
-        # if self.errors.get('tags', None):
-        #     self.errors['tags'] = None
+    def clean(self):
+        cleaned_data = super(QuestionCreateForm, self).clean()
         if 'tags' in self.errors:
-            del self._errors['tags']
-
-        if tag_objects_db:
-            cleaned_data['tags'] = tag_objects_db
-        print(cleaned_data)
-        print('finally, ', self.errors)
+            del self.errors['tags']
+        cleaned_tags = self.clean_tags()
+        cleaned_data['tags'] = cleaned_tags
         return cleaned_data
+
 
 
 class AnswerForm(forms.ModelForm):
