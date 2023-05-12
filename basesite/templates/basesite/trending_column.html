@@ -1,13 +1,6 @@
-<div class="mt-5">
-    {% if request.user.is_authenticated %}
-        <a href="{% url 'create' %}">
-            <button type="button" class="btn btn-primary btn-lg"> Ask!</button>
-        </a>
-    {% endif %}
-</div>
 <p class="h3 mt-3">Trending</p>
 <ul class="list-unstyled">
     {% for trending_question in trending_object_list %}
-        <li><span class="badge bg-primary">{{ trending_question.votes }}</span> {{ trending_question.title }}</li>
+        <li><span class="badge bg-primary">{{ trending_question.votes }}</span> <a href="{{ trending_question.get_absolute_url }}">{{ trending_question.title }}</a></li>
     {% endfor %}
 </ul>

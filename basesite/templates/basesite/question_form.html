@@ -12,7 +12,7 @@
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <h1 class="mt-5">Ask a question</h1>
                     <form method="post">
 
@@ -45,7 +45,8 @@
                     </form>
 
                 </div>
-                <div class="col-lg-2">
+                <div class="col-lg-2 offset-lg-1">
+                    {% include 'basesite/ask_button.html' %}
                     {% include 'basesite/trending_column.html' %}
                 </div>
             </div>
