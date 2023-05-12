@@ -5,7 +5,7 @@
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
-                <div class="col-lg-10">
+                <div class="col-lg-9">
                     <h1 class="mt-5">{{ object.title }}</h1>
                     <div class="row">
                         <div class="col-md-1" style="font-size: 30px; color:#606060; text-align: center;">
@@ -180,7 +180,9 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="col-lg-2">
+
+                <div class="col-lg-2 offset-lg-1">
+                    {% include 'basesite/ask_button.html' %}
                     {% include 'basesite/trending_column.html' %}
                 </div>
             </div>

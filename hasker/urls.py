@@ -22,8 +22,7 @@ from hasker.settings import *
 
 from basesite.models import Question, UserProfile
 from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \
-    tag_typeahead, QuestionView, SignUpView, SettingsView, QuestionTagListView, search, QuestionSearchListView, \
-    accept_answer
+    tag_typeahead, QuestionView, SignUpView, SettingsView, QuestionTagListView, search, QuestionSearchListView, QCV, accept_answer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,6 +42,7 @@ urlpatterns = [
     path('tag-typeahead', tag_typeahead, name='tag-typeahead'),
     path('up/<int:pk>', UpdateView.as_view(model=UserProfile, fields='__all__'), name='up'),  #todo:remove
     path('accept-answer/<int:qpk>/<int:apk>', accept_answer, name='accept-answer'),
+    path('qcv', QCV.as_view(), name='qcv'),
 ]
 
 if DEBUG:
