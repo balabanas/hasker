@@ -17,11 +17,11 @@
                             <p>{{ object.message }}</p>
                             <p>{% for tag in object.tags.all %}<a href="{% url 'tag-list' tag.slug %}"><span
                                     class="badge bg-primary">{{ tag.tag }}</span></a> {% endfor %}</p>
-                        {% if object.author.userprofile.avatar %}
-                                    <img src="{{ object.author.userprofile.avatar.url }}"
-                                         alt="{{ object.author.username }} avatar" class="rounded-circle"
-                                         height="32"/>
-                                {% endif %}
+                            {% if object.author.userprofile.avatar %}
+                                <img src="{{ object.author.userprofile.avatar.url }}"
+                                     alt="{{ object.author.username }} avatar" class="rounded-circle"
+                                     height="32"/>
+                            {% endif %}
                             <p>{{ object.author.username }}</p>
 
                         </div>
@@ -58,6 +58,37 @@
                             })
                         }
 
+                        function accept_answer(question_id, answer_id) {
+                            $.ajax({
+                                url: "/accept-answer/" + question_id + "/" + answer_id,
+                                type: "post",
+                                data: {
+                                    question_id: question_id,
+                                    answer_id: answer_id,
+                                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                                },
+                                dataType: 'json',
+                                success: function (res) {
+                                    let id = answer_id + '_accept';
+                                    let btn = $('#' + id);
+                                    if (btn.text() !== "Accepted") {
+                                        btn.removeClass('btn-primary').addClass('btn-success');
+                                        btn.text('Accepted');
+                                        $('.a-accept').each(function () {
+                                            let btn_candidate = $(this);
+                                            if (btn_candidate.attr('id') !== id) {
+                                                btn_candidate.removeClass('btn-success').addClass('btn-primary');
+                                                btn_candidate.text('Accept');
+                                            }
+                                        })
+                                    } else {
+                                        btn.removeClass('btn-success').addClass('btn-primary');
+                                        btn.text('Accept');
+                                    }
+                                }
+                            })
+                        }
+
                         $(".q-upvote").on('click', function () {
                             update_votes('q', {{ object.id }}, 1);
                         })
@@ -77,7 +108,8 @@
                                 <div class="row"><i class="bi bi-chevron-down a-downvote"
                                                     data-answer="{{ answer.id }}"></i></div>
                             </div>
-                            <div class=" col-md-8">
+                            <div class="col-md-9">
+                                {% if answer.correct %}<p><span class="badge bg-success">Accepted answer </span></p>{% endif %}
                                 <p>{{ answer.message }}</p>
                                 {% if answer.author.userprofile.avatar %}
                                     <img src="{{ answer.author.userprofile.avatar.url }}"
@@ -85,6 +117,14 @@
                                          height="32"/>
                                 {% endif %}
                                 <p>{{ answer.author.username }}</p>
+                            </div>
+                            <div class="col-md-1">
+                                {% if request.user == object.author %}
+                                    <button id="{{ answer.id }}_accept" data-answer="{{ answer.id }}" type="button"
+                                            class="btn {% if answer.correct %}btn-success{% else %}btn-primary{% endif %} a-accept">
+                                        {% if answer.correct %}Accepted{% else %}Accept{% endif %}
+                                    </button>
+                                {% endif %}
                             </div>
                         </div>
                         <hr>
@@ -98,6 +138,9 @@
                         $(".a-downvote").on('click', function () {
                             const answer_id = $(this).data('answer')
                             update_votes('a', answer_id, -1);
+                        })
+                        $(".a-accept").on('click', function () {
+                            accept_answer(question_id, $(this).data('answer'))
                         })
                     </script>
 

@@ -103,10 +103,10 @@ class QuestionDetailView(FormMixin, MultipleObjectMixin, DetailView):
     form_class = AnswerForm
 
     # ordering = ['id']
-    paginate_by = 2
+    paginate_by = 30
 
     def get_context_data(self, **kwargs):
-        object_list = Answer.objects.filter(question_id=self.object.id).order_by('-votes', '-date_created')
+        object_list = Answer.objects.filter(question_id=self.object.id).order_by('-correct', '-votes', '-date_created')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['trending_object_list'] = Question.trending.all()
 
@@ -140,6 +140,21 @@ class AnswerFormView(SingleObjectMixin, FormView):
 
     def get_success_url(self):
         return reverse("question-detail", kwargs={"pk": self.object.pk})
+
+
+def accept_answer(request, qpk: int, apk: int):
+    if not request.user.is_authenticated:
+        return JsonResponse({'result': 'Login required'})
+    if request.POST:
+        user = request.user
+        try:
+            answers = Answer.objects.filter(question__id=qpk, question__author=user)
+            # accepted_answer = answers.get(id=apk)
+            answers.exclude(id=apk).update(correct=False)
+            answers.filter(id=apk).update(correct=True)
+        except Answer.DoesNotExist:
+            return JsonResponse({'result': 'Not found'})
+    return JsonResponse({'result': 'Success'})
 
 
 class QuestionView(View):
