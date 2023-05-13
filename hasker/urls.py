@@ -22,7 +22,7 @@ from hasker.settings import *
 
 from basesite.models import Question, UserProfile
 from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \
-    tag_typeahead, QuestionView, SignUpView, SettingsView, QuestionTagListView, search, QuestionSearchListView, QCV, accept_answer
+    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, search, QuestionSearchListView, QCV, accept_answer
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,7 +35,7 @@ urlpatterns = [
     path('settings', SettingsView.as_view(), name='settings'),
     path('login', HaskerLoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),
-    path('question/<int:pk>', QuestionView.as_view(), name='question-detail'),
+    path('question/<int:pk>', QuestionDetailView.as_view(), name='question-detail'),
     # path('question-upvote/<int:pk>', UpdateView.as_view(model=Question), name='question-upvote'),
     # path('question-downvote/<int:pk>', QuestionDetailView.as_view(), name='question-downvote'),
     path('question-vote/<int:pk>', question_vote, name='question-upvote'),

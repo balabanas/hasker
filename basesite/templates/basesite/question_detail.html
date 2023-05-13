@@ -176,7 +176,7 @@
                     </nav>
                     {% if request.user.is_authenticated %}
                         <div class="mb-3">
-                            {% include 'basesite/answer_form.html' %}
+                            {% include 'basesite/answer_form.html' with form=form%}
                         </div>
                     {% endif %}
                 </div>

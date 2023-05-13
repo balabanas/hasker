@@ -101,40 +101,30 @@ class QuestionCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-@method_decorator(ensure_csrf_cookie, name='get')
 class QuestionDetailView(FormMixin, MultipleObjectMixin, DetailView):
     model = Question
-    # fields = ['title', 'message', 'tags']
-    # success_url = reverse_lazy('list')
     form_class = AnswerForm
-
-    # ordering = ['id']
     paginate_by = 30
+    object: Question
 
     def get_context_data(self, **kwargs):
         object_list = Answer.objects.filter(question_id=self.object.id).order_by('-correct', '-votes', '-date_created')
         context = super().get_context_data(object_list=object_list, **kwargs)
         context['trending_object_list'] = Question.trending.all()
-
-        # context['object_list'] = object_list  # Answer.objects.filter(question_id=self.object.id)
-        context['form'] = AnswerForm()
+        form = kwargs.get('form', None) or AnswerForm()
+        context['form'] = form
         return context
-
-
-class AnswerFormView(SingleObjectMixin, FormView):
-    # template_name = "basesite/answer_form.html"
-    form_class = AnswerForm
-    model = Question
 
     def post(self, request, *args, **kwargs):
         user = request.user
         if not user.is_authenticated:
             return HttpResponseForbidden()
         self.object = self.get_object()
-        print('question no ', self.object)
-        print('user ', user)
-
-        return super().post(request, *args, **kwargs)
+        form = self.get_form()
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -161,16 +151,6 @@ def accept_answer(request, qpk: int, apk: int):
         except Answer.DoesNotExist:
             return JsonResponse({'result': 'Not found'})
     return JsonResponse({'result': 'Success'})
-
-
-class QuestionView(View):
-    def get(self, request, *args, **kwargs):
-        view = QuestionDetailView.as_view()
-        return view(request, *args, **kwargs)
-
-    def post(self, request, *args, **kwargs):
-        view = AnswerFormView.as_view()
-        return view(request, *args, **kwargs)
 
 
 def question_vote(request, pk):
