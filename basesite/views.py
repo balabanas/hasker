@@ -56,15 +56,6 @@ class QuestionTagListView(ListView):
         queryset = queryset.filter(tags__slug=self.kwargs['slug'])
         return queryset
 
-    # def __init__(self, *args, **kwargs):
-    #     super(QuestionTagListView, self).__init__(*args, **kwargs)
-    #     self.queryset = Question.objects.filter(tags=self.kwargs['pk'])
-    # def get_ordering(self):
-    #     ordering = self.request.GET.get('ordering', '-date_created')
-    #     if ordering in ['-date_created', '-votes']:
-    #         return ordering
-    #     return '-date_created'
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
         context['trending_object_list'] = Question.trending.all()
@@ -259,42 +250,31 @@ class QuestionSearchListView(ListView):
     paginate_by = 20
     template_name = 'basesite/search_results.html'
     query: str = ""
+    
+    def get(self, *args, **kwargs):
+        self.query: str = self.request.GET['q']
+        return super(QuestionSearchListView, self).get(*args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):
-        self.query: str = self.request.GET['q']
-        print('query' + self.query)
         if self.query.strip().startswith('tag:'):
-            tag = self.query.strip().split(':', maxsplit=1)[1]
+            tag = self.query.strip().split(':', maxsplit=1)[1].strip()
             try:
                 tag_slug = Tag.objects.get(tag__iexact=tag).slug
             except Tag.DoesNotExist:
                 tag_slug = tag
-            print('tag_slug: ', tag_slug)
             return redirect(reverse('tag-list', args=(tag_slug, )))
         return super(QuestionSearchListView, self).render_to_response(context, **response_kwargs)
 
     def get_ordering(self):
         ordering = self.request.GET.get('ordering', '-date_created')
-        if ordering in ['-date_created', '-votes']:
+        if ordering in ['-votes', '-date_created']:
             return ordering
         return '-date_created'
 
     def get_queryset(self):
         queryset = super(QuestionSearchListView, self).get_queryset()
-        # query: str = self.request.GET['q']
-        # print('query' + query)
-        # if query.strip().startswith('tag:'):
-        #     tag = query.strip().split(':', maxsplit=1)[1]
-        #     try:
-        #         tag_slug = Tag.objects.get(tag__iexact=tag).slug
-        #     except Tag.DoesNotExist:
-        #         tag_slug = tag
-        #     print('tag_slug: ', tag_slug)
-        #     return redirect(reverse('tag-list', kwargs={'slug': tag_slug}))
-        queryset = queryset.filter(Q(title__icontains=self.query) | Q(message__icontains=self.query) | Q(answers__message__icontains=self.query))
-        # queryset = queryset.filter(title__icontains=self.request.GET['q'])
-        # queryset = queryset.filter(answers__message__icontains=self.request.GET['q'])
-
+        queryset = queryset.filter(Q(title__icontains=self.query) | Q(message__icontains=self.query) |
+                                   Q(answers__message__icontains=self.query)).distinct()
         return queryset
 
     def get_context_data(self, **kwargs):
