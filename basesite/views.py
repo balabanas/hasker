@@ -196,16 +196,17 @@ class HaskerLoginView(LoginView):
 
 class SignUpView(CreateView):
     model = User
-    # model = UserProfile
-    # form_class = UserCreationForm
     form_class = UserProfileForm
-    # fields = ['avatar']
     success_url = reverse_lazy('list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
+
+    def form_invalid(self, form):
+        print('invalid: ', form.errors)
+        return super(SignUpView, self).form_invalid(form)
 
     # def form_valid(self, form):
     #     obj = form.save(commit=False)
