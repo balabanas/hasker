@@ -1,8 +1,8 @@
 <form class="row g-3" method="post">
     <div class="col-md-8">
         {% csrf_token %}
-        <label class="form-label {% if form.message.errors %}is-invalid{% endif %}" for="id_message">Your answer</label>
-        <textarea class="form-control" name="message" rows="4" required="" id="id_message"></textarea>
+        <label class="form-label" for="id_message">Your answer</label>
+        <textarea class="form-control{% if form.message.errors %} is-invalid{% endif %}" name="message" rows="4" required="" id="id_message"></textarea>
         <div id="message_feedback" class="invalid-feedback">
             {{ form.message.errors|striptags }}
         </div>
