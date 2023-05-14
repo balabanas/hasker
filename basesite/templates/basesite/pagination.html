@@ -1,26 +1,3 @@
-{% load humanize %}
-{% for question in page_obj %}
-    <div class="row">
-        <div class="col-sm-1 text-center">
-            {{ question.votes }}<br>Votes
-        </div>
-        <div class="col-sm-1 text-center">
-            {{ question.answers.count }}<br>Answers
-        </div>
-        <div class="col-sm-8">
-            <p class="lead"><a
-                    href="{% url 'question-detail' question.id %}">{{ question.title }}</a></p>
-            <p>{% for tag in question.tags.all %}<a href="{% url 'tag-list' tag.slug %}"><span
-                    class="badge bg-primary">{{ tag.tag }}</span></a> {% endfor %}</p>
-        </div>
-        <div class="col-sm-2 text-center">
-            <p>{{ question.author.username }}<br>
-                {{ question.date_created|naturaltime }}</p>
-        </div>
-        <hr>
-    </div>
-{% endfor %}
-
 <nav aria-label="Page navigation (pagination)">
     <ul class="pagination justify-content-center">
         {% if page_obj.has_previous %}
