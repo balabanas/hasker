@@ -10,43 +10,70 @@
                         <div class="row mb-3">
                             <label for="id_username" class="col-sm-2 col-form-label">Login *</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="username"
+                                <input type="text"
+                                       class="form-control{% if form.username.errors %} is-invalid{% endif %}"
+                                       name="username"
                                        maxlength="150"
                                        autocapitalize="none" autocomplete="username" autofocus="" required=""
-                                       id="id_username">
+                                       id="id_username"{% if form.username.value %}
+                                       value="{{ form.username.value }}"{% endif %}>
+                                <div id="username_feedback" class="invalid-feedback">
+                                    {{ form.username.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="id_email" class="col-sm-2 col-form-label">Email *</label>
                             <div class="col-sm-6">
-                                <input type="email" class="form-control" name="email"
-                                       maxlength="254" id="id_email">
+                                <input type="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}"
+                                       name="email"
+                                       maxlength="254" id="id_email"{% if form.email.value %}
+                                       value="{{ form.email.value }}"{% endif %}>
+                                <div id="email_feedback" class="invalid-feedback">
+                                    {{ form.email.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="id_password1" class="col-sm-2 col-form-label">Password *</label>
                             <div class="col-sm-6">
-                                <input type="password" class="form-control" name="password1" autocomplete="new-password"
+                                <input type="password"
+                                       class="form-control{% if form.password1.errors %} is-invalid{% endif %}"
+                                       name="password1" autocomplete="new-password"
                                        required=""
-                                       id="id_password1">
+                                       id="id_password1"{% if form.password1.value %}
+                                       value="{{ form.password1.value }}"{% endif %}>
+                                <div id="password1_feedback" class="invalid-feedback">
+                                    {{ form.password1.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="id_password2" class="col-sm-2 col-form-label">Repeat Password *</label>
                             <div class="col-sm-6">
-                                <input type="password" class="form-control" name="password2" autocomplete="new-password"
+                                <input type="password"
+                                       class="form-control{% if form.password2.errors %} is-invalid{% endif %}"
+                                       name="password2" autocomplete="new-password"
                                        required=""
-                                       id="id_password2">
+                                       id="id_password2"{% if form.password2.value %}
+                                       value="{{ form.password2.value }}"{% endif %}>
+                                <div id="password2_feedback" class="invalid-feedback">
+                                    {{ form.password2.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="id_avatar" class="col-sm-2 col-form-label">Avatar</label>
                             <div class="col-sm-6">
-                                <input type="file" class="form-control" name="avatar" accept="image/*" id="id_avatar">
+                                <input type="file" class="form-control{% if form.avatar.errors %} is-invalid{% endif %}"
+                                       name="avatar" accept="image/*" id="id_avatar">
+                                <div id="avatar_feedback" class="invalid-feedback">
+                                    {{ form.avatar.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
