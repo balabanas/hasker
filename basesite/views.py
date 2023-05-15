@@ -187,7 +187,6 @@ def tag_typeahead(request):
 
 
 class HaskerLoginView(LoginView):
-    # success_url = reverse_lazy('list')
     def get_context_data(self, **kwargs):
         context = super(HaskerLoginView, self).get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()

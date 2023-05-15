@@ -12,21 +12,35 @@
                         <div class="row mb-3">
                             <label for="id_username" class="col-sm-2 col-form-label">Login</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="username"
+                                <input type="text"
+                                       class="form-control"
+                                       name="username"
                                        maxlength="150"
                                        autocapitalize="none" autocomplete="username" autofocus="" required=""
-                                       id="id_username">
+                                       id="id_username" {% if form.username.value %}
+                                       value="{{ form.username.value }}"{% endif %}>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="id_password" class="col-sm-2 col-form-label">Password</label>
                             <div class="col-sm-6">
-                                <input type="password" class="form-control" name="password"
+                                <input type="password"
+                                       class="form-control"
+                                       name="password"
                                        autocapitalize="none" autocomplete="current-password" required=""
-                                       id="id_password">
+                                       id="id_password"{% if form.password.value %}
+                                       value="{{ form.password.value }}"{% endif %}>
                             </div>
                         </div>
+
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                    {% for error in form.non_field_errors %}
+                                        {{ error|striptags }}
+                                    {% endfor %}
+                            </div>
+                        {% endif %}
 
                         <button type="submit" class="btn btn-primary">Login</button>
                     </form>
