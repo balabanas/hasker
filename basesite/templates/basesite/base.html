@@ -35,7 +35,7 @@
                                                 class="text-decoration-none text-white">{{ user }}</a></span>
                     <a href="{% url 'logout' %}" class="btn btn-outline-light me-2" aria-current="page">Log Out</a>
                 {% else %}
-                    <a href="{% url 'login' %}" class="btn btn-outline-light me-2" aria-current="page">Log In</a>
+                    <a href="{% url 'login' %}?next={{ request.path }}" class="btn btn-outline-light me-2" aria-current="page">Log In</a>
                     <a href="{% url 'sign-up' %}" class="btn btn-outline-light me-2">Sign Up</a>
                 {% endif %}
             </div>

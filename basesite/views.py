@@ -187,7 +187,6 @@ def tag_typeahead(request):
 
 
 class HaskerLoginView(LoginView):
-    # success_url = reverse_lazy('list')
     def get_context_data(self, **kwargs):
         context = super(HaskerLoginView, self).get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
@@ -196,16 +195,17 @@ class HaskerLoginView(LoginView):
 
 class SignUpView(CreateView):
     model = User
-    # model = UserProfile
-    # form_class = UserCreationForm
     form_class = UserProfileForm
-    # fields = ['avatar']
     success_url = reverse_lazy('list')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
+
+    def form_invalid(self, form):
+        print('invalid: ', form.errors)
+        return super(SignUpView, self).form_invalid(form)
 
     # def form_valid(self, form):
     #     obj = form.save(commit=False)
@@ -215,30 +215,20 @@ class SignUpView(CreateView):
     #     return super().form_valid(self, form)
 
 
-class SettingsView(UpdateView):
+class SettingsView(LoginRequiredMixin, UpdateView):
     model = User
-    # fields = ('email', )
     form_class = UserProfileChangeForm
     template_name = 'auth/user_edit_form.html'
     success_url = reverse_lazy('list')
 
     def get_object(self, queryset=None):
         current_user = self.request.user
-        print('user: ', current_user)
         return current_user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
-
-    # def form_valid(self, form):
-    #     print('form valid')
-    #     return super().form_valid(form)
-    #
-    # def form_invalid(self, form):
-    #     print(form.errors)
-    #     return super().form_invalid(form)
 
 
 def search(request):

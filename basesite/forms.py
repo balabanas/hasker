@@ -97,6 +97,10 @@ class UserProfileForm(UserCreationForm):
         # model = UserProfile
         fields = UserCreationForm.Meta.fields + ('email', 'avatar')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['email'].required = True
+
     def save(self, commit=True):
         user = super().save()
         print('avatar', self.fields['avatar'])

@@ -1,13 +1,12 @@
 {% extends 'basesite/base.html' %}
 {% block body %}
-
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
                     <h1 class="mt-5">Tag result:
                         {% if tag %}{{ tag.tag }}{% else %}tag was not found.{% endif %}</h1>
-                    {% include 'basesite/question_column.html' %}
+                    {% include 'basesite/question_list_section.html' %}
                 </div>
                 <div class="col-lg-2 offset-lg-1">
                     {% include 'basesite/ask_button.html' %}

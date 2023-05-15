@@ -13,6 +13,10 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 User._meta.get_field('email')._unique = True
+# User._meta.get_field('email')._blank = False
+# User._meta.get_field('email')._null = False
+# class User(AbstractUser):
+#     email = models.EmailField(blank=False, unique=True)
 
 
 class UserProfile(models.Model):
