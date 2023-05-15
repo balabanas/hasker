@@ -215,30 +215,20 @@ class SignUpView(CreateView):
     #     return super().form_valid(self, form)
 
 
-class SettingsView(UpdateView):
+class SettingsView(LoginRequiredMixin, UpdateView):
     model = User
-    # fields = ('email', )
     form_class = UserProfileChangeForm
     template_name = 'auth/user_edit_form.html'
     success_url = reverse_lazy('list')
 
     def get_object(self, queryset=None):
         current_user = self.request.user
-        print('user: ', current_user)
         return current_user
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
-
-    # def form_valid(self, form):
-    #     print('form valid')
-    #     return super().form_valid(form)
-    #
-    # def form_invalid(self, form):
-    #     print(form.errors)
-    #     return super().form_invalid(form)
 
 
 def search(request):
