@@ -1,6 +1,4 @@
 {% extends 'basesite/base.html' %}
-
-
 {% block body %}
     <main class="flex-shrink-0">
         <div class="container">
@@ -8,33 +6,40 @@
                 <div class="col-lg-10">
                     <h1 class="mt-5">Settings</h1>
                     <form method="post" enctype="multipart/form-data">
-
                         {% csrf_token %}
 
                         <div class="row mb-3">
                             <label for="id_username" class="col-sm-2 col-form-label">Login</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control" name="username" value="{{ object.username }}"
+                                <input type="text" class="form-control{% if form.username.errors %} is-invalid{% endif %}" name="username" value="{{ object.username }}"
                                        maxlength="150" aria-label="Disabled login field" disabled
                                        autocapitalize="none" autocomplete="username" autofocus="" required=""
                                        id="id_username">
+                            <div id="username_feedback" class="invalid-feedback">
+                                    {{ form.username.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <label for="id_email" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-6">
-                                <input type="email" class="form-control" name="email" value="{{ object.email }}"
+                                <input type="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" name="email" {% if form.email.value %}value="{{ form.email.value }}{% else %}value="{{ object.email }}{% endif %}"
                                        maxlength="254" id="id_email">
+                            <div id="email_feedback" class="invalid-feedback">
+                                    {{ form.email.errors|striptags }}
+                                </div>
                             </div>
                         </div>
 
                         <div class="row mb-3">
-
                             <label for="id_avatar" class="col-sm-2 col-form-label">Avatar</label>
                             <div class="col-auto">
-                                <input type="file" class="form-control" name="avatar" accept="image/*"
+                                <input type="file" class="form-control{% if form.avatar.errors %} is-invalid{% endif %}" name="avatar" accept="image/*"
                                        id="id_avatar" placeholder="test">
+                                <div id="avatar_feedback" class="invalid-feedback">
+                                    {{ form.avatar.errors|striptags }}
+                                </div>
                             </div>
                             {% if object.userprofile.avatar %}
                                 <div class="col-auto">
@@ -48,7 +53,7 @@
                                 </div>
                             {% endif %}
                         </div>
-                        <button type="submit" class="btn btn-primary">Enter</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </form>
 
                 </div>
