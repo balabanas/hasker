@@ -6,45 +6,49 @@
             <div class="row">
                 <div class="col-lg-10">
                     <h1 class="mt-5">Log In</h1>
-                    <form method="post">
-                        {% csrf_token %}
+                    {% if not request.user.is_authenticated %}
+                        <form method="post">
+                            {% csrf_token %}
 
-                        <div class="row mb-3">
-                            <label for="id_username" class="col-sm-2 col-form-label">Login</label>
-                            <div class="col-sm-6">
-                                <input type="text"
-                                       class="form-control"
-                                       name="username"
-                                       maxlength="150"
-                                       autocapitalize="none" autocomplete="username" autofocus="" required=""
-                                       id="id_username" {% if form.username.value %}
-                                       value="{{ form.username.value }}"{% endif %}>
+                            <div class="row mb-3">
+                                <label for="id_username" class="col-sm-2 col-form-label">Login</label>
+                                <div class="col-sm-6">
+                                    <input type="text"
+                                           class="form-control"
+                                           name="username"
+                                           maxlength="150"
+                                           autocapitalize="none" autocomplete="username" autofocus="" required=""
+                                           id="id_username" {% if form.username.value %}
+                                           value="{{ form.username.value }}"{% endif %}>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row mb-3">
-                            <label for="id_password" class="col-sm-2 col-form-label">Password</label>
-                            <div class="col-sm-6">
-                                <input type="password"
-                                       class="form-control"
-                                       name="password"
-                                       autocapitalize="none" autocomplete="current-password" required=""
-                                       id="id_password"{% if form.password.value %}
-                                       value="{{ form.password.value }}"{% endif %}>
+                            <div class="row mb-3">
+                                <label for="id_password" class="col-sm-2 col-form-label">Password</label>
+                                <div class="col-sm-6">
+                                    <input type="password"
+                                           class="form-control"
+                                           name="password"
+                                           autocapitalize="none" autocomplete="current-password" required=""
+                                           id="id_password"{% if form.password.value %}
+                                           value="{{ form.password.value }}"{% endif %}>
+                                </div>
                             </div>
-                        </div>
 
-                        {% if form.non_field_errors %}
-                            <div class="alert alert-danger">
+                            {% if form.non_field_errors %}
+                                <div class="alert alert-danger">
                                     {% for error in form.non_field_errors %}
                                         {{ error|striptags }}
                                     {% endfor %}
-                            </div>
-                        {% endif %}
+                                </div>
+                            {% endif %}
 
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </form>
-
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
+                    {% else %}
+                        <p>You have already logged in. Want to log out instead?</p>
+                        <a href="{% url 'logout' %}" class="btn btn-primary me-2" aria-current="page">Log Out</a>
+                    {% endif %}
                 </div>
                 <div class="col-lg-2">
                     {% include 'basesite/trending_column.html' %}
