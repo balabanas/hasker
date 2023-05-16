@@ -1,7 +1,7 @@
 # Hasker: Poor Man's Stackoverflow
 Q&A site as Django application.
 
-![img.png](docs/img/img.png){:width="400px" height="300px"}
+![img.png](docs/img/img.png)
 
 ##Build/Run instructions
 ###demo.env file
@@ -20,7 +20,12 @@ Then in your browser, open:
  * `http://localhost:8000/` 
 
 ### Fixtures
-The repo comes with pre-populated database content for demo purposes. Thanks to `chatGPT` for providing necessary mockups! This content in form of fixtures is automatically (re)installed to the database on every run of the `web` docker container.
+The repo comes with pre-populated database content for demo purposes. Thanks to `chatGPT` for providing necessary mockups for questions and answers! This content in form of fixtures is automatically (re)installed to the database on every run of the `web` docker container.
+
+You may try to work under several pre-created demo users:
+* `testuser1` / `PWDtU234%%`
+* `testuser2` / `2PWDtU234%%`
+* `testuser3` / `3PWDtU234%%`
 
 ## Run tests locally
 Create hasker/settings/local.py with the contents:
