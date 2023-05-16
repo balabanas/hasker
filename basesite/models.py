@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
-from django.core.exceptions import ValidationError
 from django.core.mail import send_mail
 from django.core.validators import MinLengthValidator
 from django.db import models
-from django.db.models.signals import post_save, m2m_changed
+from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.template.defaultfilters import truncatechars
 from django.template.loader import render_to_string
@@ -13,26 +12,11 @@ from django.utils import timezone
 from django.utils.text import slugify
 
 User._meta.get_field('email')._unique = True
-# User._meta.get_field('email')._blank = False
-# User._meta.get_field('email')._null = False
-# class User(AbstractUser):
-#     email = models.EmailField(blank=False, unique=True)
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name='Avatar image')
-
-    # date_joined as registration date, username as nickname
-
-    # def save(self, *args, **kwargs):
-    #     super().save(*args, **kwargs)
-    #
-    #     if self.avatar:
-    #         with Image.open(self.avatar.path) as img:
-    #             img.thumbnail((200, 200))
-    #             # Save the resized image back to the same location
-    #             img.save(self.avatar.path, format=img.format)
 
 
 class Message(models.Model):
@@ -83,15 +67,6 @@ class Question(Message):
 
     def get_absolute_url(self):
         return reverse("question-detail", kwargs={"pk": self.pk})
-
-
-# def tags_changed(sender, **kwargs):
-#     instance = kwargs['instance']
-#     if len(instance.tags.all()) >= instance.max_tags :
-#         raise ValidationError(f'Max number of records is {instance.max_tags}')
-#
-#
-# m2m_changed.connect(tags_changed, sender=Question.tags.through)
 
 
 class QuestionVotedBy(models.Model):

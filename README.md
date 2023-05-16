@@ -22,6 +22,21 @@ Then in your browser, open:
 ### Fixtures
 The repo comes with pre-populated database content for demo purposes. Thanks to `chatGPT` for providing necessary mockups! This content in form of fixtures is automatically (re)installed to the database on every run of the `web` docker container.
 
+## Run tests locally
+Create hasker/settings/local.py with the contents:
+```python
+from .base import *
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
+```
+Run:
+* `python manage.py test --settings hasker.settings.local`
+
 
 ## Dependencies and acknowledgments
 1. Python (v3.10)
