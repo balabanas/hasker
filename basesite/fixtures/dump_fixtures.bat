@@ -3,5 +3,3 @@ python manage.py dumpdata --settings hasker.settings.local --indent 2 > basesite
 python manage.py dumpdata --settings hasker.settings.local --indent 2 > basesite/fixtures/tag.json basesite.tag
 python manage.py dumpdata --settings hasker.settings.local --indent 2 > basesite/fixtures/question.json basesite.question
 python manage.py dumpdata --settings hasker.settings.local --indent 2 > basesite/fixtures/answer.json basesite.answer
-
-

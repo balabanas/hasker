@@ -40,6 +40,8 @@ class Tag(models.Model):
         """Alter save to create slug, omitting non-ascii symbols, altering with counter to prevent duplicates"""
         self.slug = slugify(self.tag)
         base_slug, n = self.slug, 0
+        if not base_slug:
+            base_slug = f"{n}"
         while Tag.objects.filter(slug=self.slug).exists():
             n += 1
             self.slug = f"{base_slug}{n}"

@@ -1,12 +1,12 @@
 #!/bin/sh
 
 
-echo "Waiting for postgres..."
+echo "Waiting for Postgres..."
 
 while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
   sleep 1
 done
 
-echo "PostgreSQL started"
+echo "Postgres started"
 
 exec "$@"

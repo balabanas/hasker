@@ -1,14 +1,5 @@
 {% extends 'basesite/base.html' %}
-
-
 {% block body %}
-
-    <script type="module">
-        import Tags from "https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-tags@master/tags.js";
-
-        Tags.init("select", {separator: ",|",});
-    </script>
-
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
@@ -58,10 +49,17 @@
 
                 </div>
                 <div class="col-lg-2 offset-lg-1">
-                    {% include 'basesite/ask_button.html' %}
                     {% include 'basesite/trending_column.html' %}
                 </div>
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block scripts_in_body %}
+    <script type="module">
+        import Tags from "https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-tags@master/tags.js";
+
+        Tags.init("select", {separator: ",|",});
+    </script>
 {% endblock %}

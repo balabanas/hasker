@@ -39,7 +39,5 @@ RUN python manage.py collectstatic --no-input
 # Expose the application port
 EXPOSE 8080
 
-# Start the uWSGI server
-#CMD ["uwsgi", "--http", "0.0.0.0:8080", "--module", "hasker.wsgi"]
-#CMD ["tail", "-f", "/dev/null"]
+# Entrypoint: wait for postgres
 ENTRYPOINT ["/hasker/entrypoint.sh"]

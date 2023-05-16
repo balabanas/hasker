@@ -17,12 +17,10 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path
-from django.views.generic import DetailView, UpdateView, ListView
-from hasker.settings.base import *
 
-from basesite.models import Question, UserProfile
 from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \
-    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, search, QuestionSearchListView, QCV, accept_answer
+    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer
+from hasker.settings.base import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -36,13 +34,9 @@ urlpatterns = [
     path('login', HaskerLoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),
     path('question/<int:pk>', QuestionDetailView.as_view(), name='question-detail'),
-    # path('question-upvote/<int:pk>', UpdateView.as_view(model=Question), name='question-upvote'),
-    # path('question-downvote/<int:pk>', QuestionDetailView.as_view(), name='question-downvote'),
     path('question-vote/<int:pk>', question_vote, name='question-upvote'),
     path('tag-typeahead', tag_typeahead, name='tag-typeahead'),
-    path('up/<int:pk>', UpdateView.as_view(model=UserProfile, fields='__all__'), name='up'),  #todo:remove
     path('accept-answer/<int:qpk>/<int:apk>', accept_answer, name='accept-answer'),
-    path('qcv', QCV.as_view(), name='qcv'),
 ]
 
 if DEBUG:

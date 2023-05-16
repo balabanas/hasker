@@ -1,7 +1,6 @@
 {% extends 'basesite/base.html' %}
 {% load humanize %}
 {% block body %}
-
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
@@ -23,80 +22,10 @@
                                      height="32"/>
                             {% endif %}
                             <p>{{ object.author.username }}</p>
-
                         </div>
                     </div>
+
                     <hr>
-
-                    <script>
-                        const question_id = {{ object.id }};
-
-                        function update_votes(instance_type, instance_id, increment) {
-                            $.ajax({
-                                url: "/question-vote/" + question_id,
-                                type: "post",
-                                data: {
-                                    instance_type: instance_type,
-                                    instance_id: instance_id,
-                                    increment: increment,
-                                    csrfmiddlewaretoken: "{{ csrf_token }}",
-                                },
-                                dataType: 'json',
-                                success: function (res) {
-                                    let _count_selector = $((instance_type === 'q' ? ".q-votes" : ".a-votes-" + instance_id))
-                                    let _prev_votes = _count_selector.text();
-                                    console.log(res);
-                                    if (res.result === 'Login required') {
-                                        $('#votingResultModal .modal-body').html('You should <a href="{% url "login" %}?next={% url "question-detail" object.id %}">login</a> first');
-                                        $('#votingResultModal').modal('show');
-                                    } else if (res.result === 'Success') {
-                                        _count_selector.text(parseInt(_prev_votes) + increment);
-                                    } else if (res.result === 'Already voted') {
-                                        $('#votingResultModal').modal('show');
-                                    }
-                                }
-                            })
-                        }
-
-                        function accept_answer(question_id, answer_id) {
-                            $.ajax({
-                                url: "/accept-answer/" + question_id + "/" + answer_id,
-                                type: "post",
-                                data: {
-                                    question_id: question_id,
-                                    answer_id: answer_id,
-                                    csrfmiddlewaretoken: "{{ csrf_token }}",
-                                },
-                                dataType: 'json',
-                                success: function (res) {
-                                    let id = answer_id + '_accept';
-                                    let btn = $('#' + id);
-                                    if (btn.text() !== "Accepted") {
-                                        btn.removeClass('btn-primary').addClass('btn-success');
-                                        btn.text('Accepted');
-                                        $('.a-accept').each(function () {
-                                            let btn_candidate = $(this);
-                                            if (btn_candidate.attr('id') !== id) {
-                                                btn_candidate.removeClass('btn-success').addClass('btn-primary');
-                                                btn_candidate.text('Accept');
-                                            }
-                                        })
-                                    } else {
-                                        btn.removeClass('btn-success').addClass('btn-primary');
-                                        btn.text('Accept');
-                                    }
-                                }
-                            })
-                        }
-
-                        $(".q-upvote").on('click', function () {
-                            update_votes('q', {{ object.id }}, 1);
-                        })
-                        $(".q-downvote").on('click', function () {
-                            update_votes('q', {{ object.id }}, -1);
-                        })
-                    </script>
-
 
                     {% for answer in page_obj %}
                         <div class="row">
@@ -109,7 +38,8 @@
                                                     data-answer="{{ answer.id }}"></i></div>
                             </div>
                             <div class="col-md-9">
-                                {% if answer.correct %}<p><span class="badge bg-success">Accepted answer </span></p>{% endif %}
+                                {% if answer.correct %}
+                                    <p><span class="badge bg-success">Accepted answer </span></p>{% endif %}
                                 <p>{{ answer.message|linebreaksbr }}</p>
                                 {% if answer.author.userprofile.avatar %}
                                     <img src="{{ answer.author.userprofile.avatar.url }}"
@@ -130,28 +60,14 @@
                         <hr>
                     {% endfor %}
 
-                    <script>
-                        $(".a-upvote").on('click', function () {
-                            const answer_id = $(this).data('answer')
-                            update_votes('a', answer_id, 1);
-                        })
-                        $(".a-downvote").on('click', function () {
-                            const answer_id = $(this).data('answer')
-                            update_votes('a', answer_id, -1);
-                        })
-                        $(".a-accept").on('click', function () {
-                            accept_answer(question_id, $(this).data('answer'))
-                        })
-                    </script>
-
-                {% if page_obj.paginator.num_pages > 1 %}
-    {% include 'basesite/pagination.html' %}
-{% endif %}
+                    {% if page_obj.paginator.num_pages > 1 %}
+                        {% include 'basesite/pagination.html' %}
+                    {% endif %}
 
 
                     {% if request.user.is_authenticated %}
                         <div class="mb-3">
-                            {% include 'basesite/answer_form.html' with form=form%}
+                            {% include 'basesite/answer_form.html' with form=form %}
                         </div>
                     {% endif %}
                 </div>
@@ -183,4 +99,89 @@
         </div>
 
     </main>
+{% endblock %}
+
+{% block scripts_in_body %}
+    <script>
+        $(".a-upvote").on('click', function () {
+            const answer_id = $(this).data('answer')
+            update_votes('a', answer_id, 1);
+        })
+        $(".a-downvote").on('click', function () {
+            const answer_id = $(this).data('answer')
+            update_votes('a', answer_id, -1);
+        })
+        $(".a-accept").on('click', function () {
+            accept_answer(question_id, $(this).data('answer'))
+        })
+    </script>
+
+    <script>
+        const question_id = {{ object.id }};
+
+        function update_votes(instance_type, instance_id, increment) {
+            $.ajax({
+                url: "/question-vote/" + question_id,
+                type: "post",
+                data: {
+                    instance_type: instance_type,
+                    instance_id: instance_id,
+                    increment: increment,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                dataType: 'json',
+                success: function (res) {
+                    let _count_selector = $((instance_type === 'q' ? ".q-votes" : ".a-votes-" + instance_id))
+                    let _prev_votes = _count_selector.text();
+                    console.log(res);
+                    if (res.result === 'Login required') {
+                        $('#votingResultModal .modal-body').html('You should <a href="{% url "login" %}?next={% url "question-detail" object.id %}">login</a> first');
+                        $('#votingResultModal').modal('show');
+                    } else if (res.result === 'Success') {
+                        _count_selector.text(parseInt(_prev_votes) + increment);
+                    } else if (res.result === 'Already voted') {
+                        $('#votingResultModal').modal('show');
+                    }
+                }
+            })
+        }
+
+        function accept_answer(question_id, answer_id) {
+            $.ajax({
+                url: "/accept-answer/" + question_id + "/" + answer_id,
+                type: "post",
+                data: {
+                    question_id: question_id,
+                    answer_id: answer_id,
+                    csrfmiddlewaretoken: "{{ csrf_token }}",
+                },
+                dataType: 'json',
+                success: function (res) {
+                    let id = answer_id + '_accept';
+                    let btn = $('#' + id);
+                    if (btn.text() !== "Accepted") {
+                        btn.removeClass('btn-primary').addClass('btn-success');
+                        btn.text('Accepted');
+                        $('.a-accept').each(function () {
+                            let btn_candidate = $(this);
+                            if (btn_candidate.attr('id') !== id) {
+                                btn_candidate.removeClass('btn-success').addClass('btn-primary');
+                                btn_candidate.text('Accept');
+                            }
+                        })
+                    } else {
+                        btn.removeClass('btn-success').addClass('btn-primary');
+                        btn.text('Accept');
+                    }
+                }
+            })
+        }
+
+        $(".q-upvote").on('click', function () {
+            update_votes('q', {{ object.id }}, 1);
+        })
+        $(".q-downvote").on('click', function () {
+            update_votes('q', {{ object.id }}, -1);
+        })
+    </script>
 {% endblock %}

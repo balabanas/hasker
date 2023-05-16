@@ -9,11 +9,9 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
-
 
 from hasker.utils import read_env_file
 
@@ -116,16 +114,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = 'files_static'  # the place, where all static files will be gathered upon collectstatic run
+STATIC_ROOT = 'files_static'
 MEDIA_ROOT = 'files_media'
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, "basesite/static"),  # collection of folders with static files for applications, BEFORE collectstatic run
-# )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = reverse_lazy('login')

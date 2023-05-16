@@ -1,30 +1,18 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Model, Q
+from django.db.models import Q
 from django.http import JsonResponse, HttpResponseForbidden
-from django.shortcuts import render, redirect
+from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
-from django.utils.decorators import method_decorator
-from django.views import View
-from django.views.decorators.csrf import ensure_csrf_cookie
-from django.views.decorators.http import require_http_methods, require_GET, require_POST
-
-from django.views.generic.detail import SingleObjectMixin, DetailView
-from django.views.generic.edit import FormMixin, FormView, CreateView, UpdateView
+from django.views.decorators.http import require_GET
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import FormMixin, CreateView, UpdateView
 from django.views.generic.list import ListView, MultipleObjectMixin
 
-from basesite.forms import QuestionCreateForm, AnswerForm, UserProfileForm, UserProfileChangeForm, QCF
-from basesite.models import Question, Answer, QuestionVotedBy, AnswerVotedBy, Tag, UserProfile
-
-
-class QCV(CreateView):
-    model = Question
-    form_class = QCF
-    template_name = 'basesite/qcv.html'
+from basesite.forms import QuestionCreateForm, AnswerForm, UserProfileForm, UserProfileChangeForm
+from basesite.models import Question, Answer, QuestionVotedBy, AnswerVotedBy, Tag
 
 
 class QuestionListView(ListView):
@@ -69,26 +57,15 @@ class QuestionTagListView(ListView):
 
 class QuestionCreateView(LoginRequiredMixin, CreateView):
     model = Question
-    # fields = ['title', 'message', 'tags']
     form_class = QuestionCreateForm
-    # success_url = reverse_lazy('question-detail', self.object.id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
 
-    # def form_invalid(self, form):
-    #     print(form.data)
-    #     return super().form_invalid(form)
-    #
     def form_valid(self, form):
         form.instance.author = self.request.user
-    #     print('here')
-    #     print(form.data)
-    #     print(self.request.POST['tags'])
-    #     # for row in form.fields.values():
-    #     #     print(row.value())
         return super().form_valid(form)
 
 
@@ -136,7 +113,6 @@ def accept_answer(request, qpk: int, apk: int):
         user = request.user
         try:
             answers = Answer.objects.filter(question__id=qpk, question__author=user)
-            # accepted_answer = answers.get(id=apk)
             answers.exclude(id=apk).update(correct=False)
             answers.filter(id=apk).update(correct=True)
         except Answer.DoesNotExist:
@@ -159,7 +135,7 @@ def question_vote(request, pk):
             if instance_type == 'a':
                 a = Answer.objects.get(pk=instance_id)
         except (ValueError, ObjectDoesNotExist):
-            #todo: log?
+            # todo: log?
             return JsonResponse({'result': 'Wrong request data'})
         if instance_type == 'a':
             voted_by = AnswerVotedBy.objects.get_or_create(user=user, answer=a)[0]
@@ -181,8 +157,6 @@ def tag_typeahead(request):
     value = request.GET['query']
     tag_candidates = Tag.objects.filter(tag__icontains=value).values('id', 'tag')[:7]
     result = [{"value": tc['tag'], "label": tc['tag']} for tc in tag_candidates]
-    print(result)
-
     return JsonResponse(result, safe=False)
 
 
@@ -203,17 +177,6 @@ class SignUpView(CreateView):
         context['trending_object_list'] = Question.trending.all()
         return context
 
-    def form_invalid(self, form):
-        print('invalid: ', form.errors)
-        return super(SignUpView, self).form_invalid(form)
-
-    # def form_valid(self, form):
-    #     obj = form.save(commit=False)
-    #     user = User.objects.create_user('john', 'test@test.com', 'pwd')
-    #     obj.user = user
-    #     obj.save()
-    #     return super().form_valid(self, form)
-
 
 class SettingsView(LoginRequiredMixin, UpdateView):
     model = User
@@ -229,10 +192,6 @@ class SettingsView(LoginRequiredMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
-
-
-def search(request):
-    return render(request, template_name='basesite/search_results.html', context={})
 
 
 class QuestionSearchListView(ListView):
