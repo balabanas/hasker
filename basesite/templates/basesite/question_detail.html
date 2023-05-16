@@ -14,7 +14,7 @@
                             <div class="row"><i class="bi bi-chevron-down q-downvote"></i></div>
                         </div>
                         <div class="col-md-8">
-                            <p>{{ object.message }}</p>
+                            <p>{{ object.message|linebreaksbr }}</p>
                             <p>{% for tag in object.tags.all %}<a href="{% url 'tag-list' tag.slug %}"><span
                                     class="badge bg-primary">{{ tag.tag }}</span></a> {% endfor %}</p>
                             {% if object.author.userprofile.avatar %}
@@ -110,7 +110,7 @@
                             </div>
                             <div class="col-md-9">
                                 {% if answer.correct %}<p><span class="badge bg-success">Accepted answer </span></p>{% endif %}
-                                <p>{{ answer.message }}</p>
+                                <p>{{ answer.message|linebreaksbr }}</p>
                                 {% if answer.author.userprofile.avatar %}
                                     <img src="{{ answer.author.userprofile.avatar.url }}"
                                          alt="{{ answer.author.username }} avatar" class="rounded-circle"
@@ -144,36 +144,11 @@
                         })
                     </script>
 
-                    <nav aria-label="Page navigation (pagination)">
-                        <ul class="pagination justify-content-center">
-                            {% if page_obj.has_previous %}
-                                {% if page_obj.previous_page_number != 1 %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page=1">First</a>
-                                    </li>
-                                {% endif %}
-                                <li class="page-item"><a class="page-link"
-                                                         href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
-                                </li>
-                            {% endif %}
+                {% if page_obj.paginator.num_pages > 1 %}
+    {% include 'basesite/pagination.html' %}
+{% endif %}
 
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1"
-                                   aria-disabled="true">{{ page_obj.number }}</a>
-                            </li>
 
-                            {% if page_obj.has_next %}
-                                <li class="page-item"><a class="page-link"
-                                                         href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
-                                </li>
-                                {% if page_obj.next_page_number != page_obj.paginator.num_pages %}
-                                    <li class="page-item"><a class="page-link"
-                                                             href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                                    </li>
-                                {% endif %}
-                            {% endif %}
-                        </ul>
-                    </nav>
                     {% if request.user.is_authenticated %}
                         <div class="mb-3">
                             {% include 'basesite/answer_form.html' with form=form%}

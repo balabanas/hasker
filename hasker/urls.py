@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 from django.views.generic import DetailView, UpdateView, ListView
-from hasker.settings import *
+from hasker.settings.base import *
 
 from basesite.models import Question, UserProfile
 from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \

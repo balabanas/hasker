@@ -76,7 +76,7 @@ class Question(Message):
     voted_by = models.ManyToManyField('auth.User', blank=True, related_name='voted_questions',
                                       through='QuestionVotedBy')
 
-    max_tags = 1
+    max_tags = 3
 
     objects = models.Manager()
     trending = TrendingQuestionManager()

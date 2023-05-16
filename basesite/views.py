@@ -171,7 +171,7 @@ def question_vote(request, pk):
             instance.votes += increment
             voted_by.vote += increment
             voted_by.save()
-            instance.save()
+            instance.save()  # todo: change in order to not sending email on every vote (bulk update?)!
             return JsonResponse({'result': 'Success'})
         return JsonResponse({'result': 'Already voted'})
 
