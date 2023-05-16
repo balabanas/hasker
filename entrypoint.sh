@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 echo "Waiting for Postgres..."
 
 while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
