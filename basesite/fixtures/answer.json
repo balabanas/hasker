@@ -1,1 +1,590 @@
-[{"model": "basesite.answer", "pk": 1, "fields": {"message": "Answer message 1", "author": 1, "date_created": "2023-04-27T12:00:00Z", "question": 1, "correct": true}}, {"model": "basesite.answer", "pk": 2, "fields": {"message": "Answer message 2", "author": 2, "date_created": "2023-04-27T13:00:00Z", "question": 1, "correct": false}}]
+[
+{
+  "model": "basesite.answer",
+  "pk": 45,
+  "fields": {
+    "message": "Someanswer",
+    "author": 14,
+    "date_created": "2023-05-16T07:50:27.716Z",
+    "votes": 1,
+    "question": 51,
+    "correct": true
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 46,
+  "fields": {
+    "message": "RAM (Random Access Memory) is a type of computer memory that is volatile, meaning its contents are lost when the power is turned off. It is used for temporary data storage during program execution. On the other hand, ROM (Read-Only Memory) is non-volatile memory that contains permanent instructions and data. It retains its content even when the power is turned off.",
+    "author": 14,
+    "date_created": "2023-05-16T09:15:40.657Z",
+    "votes": 1,
+    "question": 53,
+    "correct": true
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 47,
+  "fields": {
+    "message": "Sorry, previous answer is wrong:\r\nA firewall is a network security device that acts as a barrier between an internal network and external networks, such as the internet. Its primary purpose is to monitor and control incoming and outgoing network traffic based on predetermined security rules. Firewalls help prevent unauthorized access, protect against network threats, and ensure the security and integrity of a network.",
+    "author": 14,
+    "date_created": "2023-05-16T09:16:30.435Z",
+    "votes": -1,
+    "question": 53,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 48,
+  "fields": {
+    "message": "RAM (Random Access Memory) is a type of computer memory that is volatile, meaning its contents are lost when the power is turned off. It is used for temporary data storage during program execution. On the other hand, ROM (Read-Only Memory) is non-volatile memory that contains permanent instructions and data. It retains its content even when the power is turned off.",
+    "author": 14,
+    "date_created": "2023-05-16T09:16:51.100Z",
+    "votes": 0,
+    "question": 52,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 49,
+  "fields": {
+    "message": "HTTP (Hypertext Transfer Protocol) and HTTPS (Hypertext Transfer Protocol Secure) are both protocols used for transmitting data over the internet. The main difference is that HTTP is not secure, while HTTPS is secure. HTTPS uses SSL/TLS encryption to secure the communication between a web browser and a web server, ensuring that the data transmitted is encrypted and cannot be easily intercepted or tampered with. It is commonly used for secure transactions, such as online banking, e-commerce, and sensitive data transfers.",
+    "author": 14,
+    "date_created": "2023-05-16T09:17:07.167Z",
+    "votes": 0,
+    "question": 54,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 50,
+  "fields": {
+    "message": "Sorry, i voted down your question: you should know such things from school.",
+    "author": 14,
+    "date_created": "2023-05-16T09:17:38.995Z",
+    "votes": 0,
+    "question": 54,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 51,
+  "fields": {
+    "message": "Yea... Indeed",
+    "author": 13,
+    "date_created": "2023-05-16T09:18:16.631Z",
+    "votes": 0,
+    "question": 54,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 52,
+  "fields": {
+    "message": "A firewall plays a crucial role in network security by acting as a barrier between a trusted internal network and an untrusted external network, such as the internet. Its primary purpose is to control and monitor incoming and outgoing network traffic based on a set of predefined security rules.\r\n\r\nHere's how a firewall helps protect against unauthorized access and threats:\r\n\r\nAccess Control: Firewalls use access control lists (ACLs) to determine which network traffic is allowed to pass through and which should be blocked. By setting up rules and policies, a firewall can restrict access to specific ports, protocols, or IP addresses, effectively preventing unauthorized connections.\r\n\r\nPacket Filtering: Firewalls inspect network packets at the packet header level, analyzing attributes like source and destination IP addresses, port numbers, and protocols. Based on these packet-level details and the defined rules, a firewall can allow or deny packets, ensuring that only legitimate and authorized traffic flows through.\r\n\r\nNetwork Address Translation (NAT): Firewalls often employ NAT techniques to hide internal IP addresses from the outside world. By translating private IP addresses to a single public IP address, a firewall adds an extra layer of security by obfuscating the internal network structure and making it harder for attackers to identify and target specific devices.\r\n\r\nIntrusion Detection and Prevention: Some advanced firewalls come with built-in intrusion detection and prevention systems (IDPS). These systems monitor network traffic patterns, detect potential security threats or malicious activities, and take preventive actions such as blocking suspicious traffic or generating alerts for further investigation.\r\n\r\nVPN Support: Firewalls can also facilitate secure remote access through Virtual Private Networks (VPNs). By establishing encrypted connections between remote devices and the internal network, firewalls enable secure data transmission over untrusted networks, protecting sensitive information from interception or eavesdropping.\r\n\r\nIn summary, firewalls act as a vital line of defense by enforcing access control policies, filtering network traffic, and detecting potential threats. Their proactive security measures significantly reduce the risk of unauthorized access, network breaches, and malicious activities, enhancing the overall security posture of an organization's network infrastructure.",
+    "author": 13,
+    "date_created": "2023-05-16T09:19:45.762Z",
+    "votes": 0,
+    "question": 53,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 53,
+  "fields": {
+    "message": "Duplicate! http://localhost:8000/question/54",
+    "author": 14,
+    "date_created": "2023-05-16T10:18:45.667Z",
+    "votes": 0,
+    "question": 57,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 54,
+  "fields": {
+    "message": "Object-Oriented Programming (OOP) is a programming paradigm that organizes code around objects, which are instances of classes. It emphasizes the concept of objects that encapsulate data (attributes) and behavior (methods) together. The main benefits of OOP include code reusability, modularity, and easier maintenance. By encapsulating data and behavior into objects, OOP enables better organization of code, promotes code reuse through inheritance and polymorphism, and allows for easier troubleshooting and updates in large-scale projects.",
+    "author": 14,
+    "date_created": "2023-05-16T10:19:07.364Z",
+    "votes": 0,
+    "question": 55,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 55,
+  "fields": {
+    "message": "A Virtual Private Network (VPN) is a technology that creates a secure and encrypted connection over a public network, such as the internet. It allows users to access a private network remotely while encrypting their internet traffic and routing it through a VPN server. This provides several benefits, including enhanced security and privacy. VPNs are commonly used to protect sensitive data when using public Wi-Fi, bypass geographical restrictions, and maintain anonymity online. By establishing a secure tunnel between the user's device and the VPN server, VPNs ensure that data transmitted over the network remains secure and confidential.",
+    "author": 14,
+    "date_created": "2023-05-16T10:19:21.244Z",
+    "votes": -1,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 56,
+  "fields": {
+    "message": "I will provide you with 10 more answers soon...",
+    "author": 14,
+    "date_created": "2023-05-16T10:22:31.212Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 57,
+  "fields": {
+    "message": "A VPN, or Virtual Private Network, is a technology that creates a secure and private connection over a public network, such as the internet.",
+    "author": 14,
+    "date_created": "2023-05-16T10:22:43.524Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 58,
+  "fields": {
+    "message": "When you connect to a VPN, your device creates an encrypted tunnel to a VPN server. All your internet traffic is then routed through this secure tunnel, protecting it from prying eyes.",
+    "author": 14,
+    "date_created": "2023-05-16T10:22:49.824Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 59,
+  "fields": {
+    "message": "The primary purpose of using a VPN is to enhance online security and privacy. It encrypts your data, making it unreadable to anyone trying to intercept it, including hackers, ISPs, or government surveillance.",
+    "author": 14,
+    "date_created": "2023-05-16T10:22:55.472Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 60,
+  "fields": {
+    "message": "In most cases, using a VPN may slightly reduce your internet speed due to the encryption and routing processes. However, some premium VPN providers offer fast and optimized servers to minimize speed loss.",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:05.114Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 61,
+  "fields": {
+    "message": "Yes, one of the main benefits of a VPN is bypassing geo-restrictions. By connecting to a VPN server in a different country, you can appear as if you're browsing from that location, granting access to geo-blocked content.",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:13.951Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 62,
+  "fields": {
+    "message": "The legality of using a VPN varies from country to country. In most places, using a VPN for personal privacy and security is legal. However, using a VPN to engage in illegal activities is prohibited.",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:23.475Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 63,
+  "fields": {
+    "message": "Yes, connecting to a VPN on public Wi-Fi networks adds an extra layer of security. It encrypts your data, making it much harder for hackers to intercept and steal your sensitive information.",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:30.588Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 64,
+  "fields": {
+    "message": "Yes, connecting to a VPN on public Wi-Fi networks adds an extra layer of security. It encrypts your data, making it much harder for hackers to intercept and steal your sensitive information.",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:37.056Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 65,
+  "fields": {
+    "message": "Most VPNs are designed to be user-friendly, with easy-to-use apps for various devices. You don't need advanced technical knowledge to set up and use a VPN effectively.\r\n\r\nCan I use a VPN on my mobile devices?",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:44.580Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 66,
+  "fields": {
+    "message": "Yes, VPNs are compatible with smartphones and tablets. VPN providers typically offer dedicated apps for iOS and Android devices, making it easy to protect your online activities on the go.",
+    "author": 14,
+    "date_created": "2023-05-16T10:23:56.650Z",
+    "votes": 2,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 67,
+  "fields": {
+    "message": "Is a VPN necessary for online banking?\r\nWhile online banking is generally secure, using a VPN adds an extra layer of encryption to protect your sensitive financial information from potential eavesdroppers.",
+    "author": 15,
+    "date_created": "2023-05-16T10:25:21.396Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 68,
+  "fields": {
+    "message": "Can a VPN hide my browsing history from my ISP?\r\nYes, a VPN encrypts your internet traffic, including your browsing history, preventing your ISP from monitoring and tracking your online activities.",
+    "author": 15,
+    "date_created": "2023-05-16T10:25:31.945Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 69,
+  "fields": {
+    "message": "Are VPNs effective against malware and viruses?\r\nVPNs primarily focus on encrypting and securing your internet connection. While they can't directly protect against malware and viruses, they can help prevent your data from being intercepted while downloading or accessing potentially harmful content.",
+    "author": 15,
+    "date_created": "2023-05-16T10:25:46.046Z",
+    "votes": 1,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 70,
+  "fields": {
+    "message": "Can I use a VPN to access streaming services like Netflix?\r\nSome VPN providers offer servers optimized for streaming, allowing you to bypass geographical restrictions and access content from different regions. However, not all VPNs work with streaming services, as they actively block VPN traffic.",
+    "author": 15,
+    "date_created": "2023-05-16T10:25:57.325Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 71,
+  "fields": {
+    "message": "Free VPNs may have limitations, such as data caps, slower speeds, or fewer server options. They may also collect and sell user data for revenue. Paid VPNs generally offer more robust security, privacy features, and better performance.",
+    "author": 15,
+    "date_created": "2023-05-16T10:26:03.986Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 72,
+  "fields": {
+    "message": "Most VPN providers allow simultaneous connections on multiple devices, such as your computer, smartphone, and tablet. The number of devices you can connect to at once may vary depending on the VPN subscription plan.",
+    "author": 13,
+    "date_created": "2023-05-16T10:26:40.763Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 73,
+  "fields": {
+    "message": "Yes, when you connect to a VPN, your IP address is masked and replaced with the IP address of the VPN server. This helps protect your online identity and adds an extra layer of anonymity.",
+    "author": 13,
+    "date_created": "2023-05-16T10:26:46.377Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 74,
+  "fields": {
+    "message": "In some cases, a VPN can help bypass bandwidth throttling imposed by your ISP. By encrypting your traffic, your ISP may not be able to identify and throttle specific activities.\r\n\r\nAre VPNs legal in all countries?",
+    "author": 13,
+    "date_created": "2023-05-16T10:27:00.861Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 75,
+  "fields": {
+    "message": "While VPNs are legal in many countries, some nations have restrictions or bans on VPN usage. It's important to check the laws regarding VPN use in your specific country or region.",
+    "author": 13,
+    "date_created": "2023-05-16T10:27:06.890Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 76,
+  "fields": {
+    "message": "Using a VPN for gaming can help protect your connection from DDoS attacks and improve security when accessing game servers. However, connecting to a VPN server far from your actual location may increase latency and affect gameplay.",
+    "author": 13,
+    "date_created": "2023-05-16T10:27:13.064Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 77,
+  "fields": {
+    "message": "Does using a VPN protect my IP address?\r\nYes, when you connect to a VPN, your IP address is masked and replaced with the IP address of the VPN server. This helps protect your online identity and adds an extra layer of anonymity.",
+    "author": 13,
+    "date_created": "2023-05-16T10:27:29.953Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 78,
+  "fields": {
+    "message": "While VPNs themselves are legal in most countries, the legality of torrenting copyrighted material varies. However, using a VPN for torrenting can help protect your privacy by masking your IP address.",
+    "author": 13,
+    "date_created": "2023-05-16T10:28:07.161Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 79,
+  "fields": {
+    "message": "Can I use a VPN on public Wi-Fi networks?\r\nYes, using a VPN on public Wi-Fi networks adds an extra layer of security by encrypting your traffic and protecting your sensitive data from potential hackers and snoopers.",
+    "author": 13,
+    "date_created": "2023-05-16T10:28:17.238Z",
+    "votes": -1,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 80,
+  "fields": {
+    "message": "VPNs can be used for online gaming to help protect against DDoS attacks and provide a more secure connection. However, using a VPN may introduce some latency, so it's important to choose a server with low ping for the best gaming experience.\r\n\r\nCan a VPN bypass government censorship?",
+    "author": 13,
+    "date_created": "2023-05-16T10:28:29.615Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 81,
+  "fields": {
+    "message": "VPNs are commonly used to bypass government censorship and access blocked websites and services. However, some countries have sophisticated censorship measures that can detect and block VPN traffic.",
+    "author": 13,
+    "date_created": "2023-05-16T10:28:37.932Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 82,
+  "fields": {
+    "message": "Yes, many VPN providers offer dedicated apps or setup guides for smart TVs and streaming devices, allowing you to protect your streaming activities and access geo-restricted content.",
+    "author": 13,
+    "date_created": "2023-05-16T10:28:44.806Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 83,
+  "fields": {
+    "message": "While a VPN can encrypt your internet traffic, it's important to note that if you're using a company-provided device or network, your employer may have monitoring measures in place. It's best to adhere to your employer's policies regarding internet usage.\r\n\r\nCan I use a VPN to change my virtual location?",
+    "author": 13,
+    "date_created": "2023-05-16T10:29:02.895Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 84,
+  "fields": {
+    "message": "Yes, by connecting to a VPN server in a different country, you can change your virtual location and access region-restricted content or services. This is commonly used for streaming, accessing international websites, or bypassing censorship.\r\n\r\nAre VPNs completely secure and invulnerable to hacking?",
+    "author": 13,
+    "date_created": "2023-05-16T10:29:11.439Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 85,
+  "fields": {
+    "message": "While VPNs add a layer of security, they are not completely invulnerable. It's essential to choose a reputable VPN provider that uses strong encryption protocols and regularly updates its security measures.",
+    "author": 13,
+    "date_created": "2023-05-16T10:29:17.564Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 86,
+  "fields": {
+    "message": "While a VPN can enhance your online privacy and anonymity, it's important to note that it's not a foolproof solution. Other factors, such as your online activities, the websites you visit, and your use of other identifiable information, can still potentially reveal your identity.",
+    "author": 13,
+    "date_created": "2023-05-16T10:29:23.342Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 87,
+  "fields": {
+    "message": "Some ISPs impose bandwidth limitations or throttle certain types of traffic. Using a VPN can help bypass these restrictions by encrypting your data and making it difficult for your ISP to identify and throttle specific activities.",
+    "author": 13,
+    "date_created": "2023-05-16T10:29:30.699Z",
+    "votes": 0,
+    "question": 56,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 88,
+  "fields": {
+    "message": "Found the answer by myself:\r\nAnswer: Symmetric encryption uses a single shared key to both encrypt and decrypt data. The same key is used by both the sender and the recipient. Asymmetric encryption, on the other hand, utilizes a pair of keys: a public key for encryption and a private key for decryption. Asymmetric encryption provides more security as the private key remains secret, while the public key can be freely shared.",
+    "author": 13,
+    "date_created": "2023-05-16T10:34:45.772Z",
+    "votes": 1,
+    "question": 62,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 89,
+  "fields": {
+    "message": "A SQL injection attack occurs when an attacker inserts malicious SQL code into a web application's input fields, tricking the application into executing unintended database queries. This can lead to unauthorized access, data breaches, and potential manipulation of the database. To prevent SQL injection attacks, proper input validation, parameterized queries, and the use of prepared statements should be implemented.",
+    "author": 13,
+    "date_created": "2023-05-16T10:35:25.534Z",
+    "votes": 0,
+    "question": 63,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 90,
+  "fields": {
+    "message": "SOMEOOOOONE! How does a CDN improve website performance and user experience?",
+    "author": 13,
+    "date_created": "2023-05-16T10:36:02.749Z",
+    "votes": 0,
+    "question": 64,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 91,
+  "fields": {
+    "message": "Virtualization allows for the creation... I forgot it, sorry..",
+    "author": 14,
+    "date_created": "2023-05-16T10:37:44.860Z",
+    "votes": -1,
+    "question": 65,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 92,
+  "fields": {
+    "message": "A Content Delivery Network (CDN) is a network of geographically distributed servers that cache and deliver website content to users. By storing copies of website content in multiple locations, CDNs reduce the distance between users and servers, resulting in faster load times and improved website performance. CDNs also help distribute traffic and reduce the load on origin servers during peak periods.",
+    "author": 14,
+    "date_created": "2023-05-16T10:38:06.031Z",
+    "votes": 0,
+    "question": 64,
+    "correct": false
+  }
+},
+{
+  "model": "basesite.answer",
+  "pk": 93,
+  "fields": {
+    "message": "My own answer: \r\nRegular software updates and patches are essential for maintaining the security and stability of computer systems. They often include fixes for known vulnerabilities, security patches, performance improvements, and new features. Failing to install updates can leave systems vulnerable to exploitation by attackers who can take advantage of known vulnerabilities. Keeping software up to date is a fundamental practice to ensure system security and protect against emerging threats.",
+    "author": 15,
+    "date_created": "2023-05-16T10:42:26.400Z",
+    "votes": 0,
+    "question": 72,
+    "correct": true
+  }
+}
+]

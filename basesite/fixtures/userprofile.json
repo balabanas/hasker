@@ -1,0 +1,26 @@
+[
+{
+  "model": "basesite.userprofile",
+  "pk": 16,
+  "fields": {
+    "user": 13,
+    "avatar": "avatars/user1logo.png"
+  }
+},
+{
+  "model": "basesite.userprofile",
+  "pk": 17,
+  "fields": {
+    "user": 14,
+    "avatar": "avatars/user2logo.png"
+  }
+},
+{
+  "model": "basesite.userprofile",
+  "pk": 18,
+  "fields": {
+    "user": 15,
+    "avatar": "avatars/user3logo.png"
+  }
+}
+]

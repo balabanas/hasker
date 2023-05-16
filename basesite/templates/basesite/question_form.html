@@ -1,21 +1,11 @@
 {% extends 'basesite/base.html' %}
-
-
 {% block body %}
-
-    <script type="module">
-        import Tags from "https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-tags@master/tags.js";
-
-        Tags.init("select", {separator: ",|",});
-    </script>
-
     <main class="flex-shrink-0">
         <div class="container">
             <div class="row">
                 <div class="col-lg-9">
                     <h1 class="mt-5">Ask a question</h1>
                     <form method="post">
-                        {#                        {{ form }}#}
                         {% csrf_token %}
                         <div class="mb-3">
                             <input name="title" id="id_title" maxlength="150" required
@@ -32,8 +22,8 @@
                             <textarea class="form-control {% if form.message.errors %}is-invalid{% endif %}"
                                       name="message" cols="40"
                                       rows="10" required=""
-                                      id="id_message">{% if form.message.value %}
-                                {{ form.message.value }}{% endif %}</textarea>
+                                      id="id_message"
+                            >{% if form.message.value %}{{ form.message.value }}{% endif %}</textarea>
                             <div id="message_feedback" class="invalid-feedback">
                                 {{ form.message.errors|striptags }}
                             </div>
@@ -59,10 +49,17 @@
 
                 </div>
                 <div class="col-lg-2 offset-lg-1">
-                    {% include 'basesite/ask_button.html' %}
                     {% include 'basesite/trending_column.html' %}
                 </div>
             </div>
         </div>
     </main>
+{% endblock %}
+
+{% block scripts_in_body %}
+    <script type="module">
+        import Tags from "https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-tags@master/tags.js";
+
+        Tags.init("select", {separator: ",|",});
+    </script>
 {% endblock %}

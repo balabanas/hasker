@@ -9,30 +9,28 @@ https://docs.djangoproject.com/en/4.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.1/ref/settings/
 """
-import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
 
-from .local_settings import *
+from hasker.utils import read_env_file
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+env_vars = read_env_file(BASE_DIR / 'demo.env')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = DJANGO_SECRET_KEY
+SECRET_KEY = env_vars['DJANGO_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(env_vars['DJANGO_DEBUG']))
 
-ALLOWED_HOSTS = []
-
-
-# Application definition
+CSRF_TRUSTED_ORIGINS = list(filter(bool, env_vars['DJANGO_CSRF_TRUSTED_ORIGINS'].split(',')))
+ALLOWED_HOSTS = list(filter(bool, env_vars['DJANGO_ALLOWED_HOSTS'].split(',')))
+CORS_ORIGIN_WHITELIST = list(filter(bool, env_vars['DJANGO_CORS_ORIGIN_WHITELIST'].split(',')))
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -79,17 +77,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hasker.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -127,16 +114,12 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-STATIC_ROOT = 'files_static'  # the place, where all static files will be gathered upon collectstatic run
+STATIC_ROOT = 'files_static'
 MEDIA_ROOT = 'files_media'
 
-# STATICFILES_DIRS = (
-#     os.path.join(BASE_DIR, "basesite/static"),  # collection of folders with static files for applications, BEFORE collectstatic run
-# )
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = reverse_lazy('login')

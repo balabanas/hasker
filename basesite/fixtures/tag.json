@@ -1,16 +1,386 @@
 [
-  {
-    "model": "basesite.tag",
-    "pk": 1,
-    "fields": {
-      "tag": "Tag1"
-    }
-  },
-  {
-    "model": "basesite.tag",
-    "pk": 2,
-    "fields": {
-      "tag": "Tag2"
-    }
+{
+  "model": "basesite.tag",
+  "pk": 1,
+  "fields": {
+    "tag": "Tag 1",
+    "slug": "tag-1"
   }
+},
+{
+  "model": "basesite.tag",
+  "pk": 2,
+  "fields": {
+    "tag": "Tag2",
+    "slug": "tag2"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 73,
+  "fields": {
+    "tag": "new tag",
+    "slug": "new-tag"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 74,
+  "fields": {
+    "tag": "1",
+    "slug": "1"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 75,
+  "fields": {
+    "tag": "ћтрћтрћт ћтр ћтырюћЙ\"Й423 434",
+    "slug": "nono423-434"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 79,
+  "fields": {
+    "tag": "ћтрћтряртя трятря4Й45534ятрятря_",
+    "slug": "dfdf"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 80,
+  "fields": {
+    "tag": "Tag object (None)",
+    "slug": "tag-object-none"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 81,
+  "fields": {
+    "tag": "dddd",
+    "slug": "dddd"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 86,
+  "fields": {
+    "tag": "nono423-434",
+    "slug": "nono423-4341"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 87,
+  "fields": {
+    "tag": "mnb",
+    "slug": "mnb"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 88,
+  "fields": {
+    "tag": "test",
+    "slug": "test"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 89,
+  "fields": {
+    "tag": "dfdfd",
+    "slug": "dfdfd"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 90,
+  "fields": {
+    "tag": "test tag",
+    "slug": "test-tag"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 91,
+  "fields": {
+    "tag": "cvvf",
+    "slug": "cvvf"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 92,
+  "fields": {
+    "tag": "sdfsdf",
+    "slug": "sdfsdf"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 93,
+  "fields": {
+    "tag": "fsdfsdf",
+    "slug": "fsdfsdf"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 94,
+  "fields": {
+    "tag": "dfsdfdf",
+    "slug": "dfsdfdf"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 95,
+  "fields": {
+    "tag": "sdfdfd",
+    "slug": "sdfdfd"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 96,
+  "fields": {
+    "tag": "tre",
+    "slug": "tre"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 97,
+  "fields": {
+    "tag": "dfdfdf",
+    "slug": "dfdfdf"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 98,
+  "fields": {
+    "tag": "sdfsdfd",
+    "slug": "sdfsdfd"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 99,
+  "fields": {
+    "tag": "dfdf",
+    "slug": "dfdf1"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 100,
+  "fields": {
+    "tag": "s",
+    "slug": "s"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 101,
+  "fields": {
+    "tag": "f",
+    "slug": "f"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 102,
+  "fields": {
+    "tag": " g",
+    "slug": "g"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 103,
+  "fields": {
+    "tag": " h",
+    "slug": "h"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 104,
+  "fields": {
+    "tag": "a",
+    "slug": "a"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 105,
+  "fields": {
+    "tag": " b",
+    "slug": "b"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 106,
+  "fields": {
+    "tag": " c",
+    "slug": "c"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 107,
+  "fields": {
+    "tag": "b",
+    "slug": "b1"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 108,
+  "fields": {
+    "tag": "c",
+    "slug": "c1"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 109,
+  "fields": {
+    "tag": "bbbbbbbbb",
+    "slug": "bbbbbbbbb"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 110,
+  "fields": {
+    "tag": "RAM",
+    "slug": "ram"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 111,
+  "fields": {
+    "tag": "firewall",
+    "slug": "firewall"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 112,
+  "fields": {
+    "tag": "security",
+    "slug": "security"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 113,
+  "fields": {
+    "tag": "https",
+    "slug": "https"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 114,
+  "fields": {
+    "tag": "vpn",
+    "slug": "vpn"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 115,
+  "fields": {
+    "tag": "network",
+    "slug": "network"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 116,
+  "fields": {
+    "tag": "2FA",
+    "slug": "2fa"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 117,
+  "fields": {
+    "tag": "http",
+    "slug": "http"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 118,
+  "fields": {
+    "tag": "xss",
+    "slug": "xss"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 119,
+  "fields": {
+    "tag": "ddos",
+    "slug": "ddos"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 120,
+  "fields": {
+    "tag": "encription",
+    "slug": "encription"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 121,
+  "fields": {
+    "tag": "cdn",
+    "slug": "cdn"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 122,
+  "fields": {
+    "tag": "virtualization",
+    "slug": "virtualization"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 123,
+  "fields": {
+    "tag": "ssl",
+    "slug": "ssl"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 124,
+  "fields": {
+    "tag": "MFA",
+    "slug": "mfa"
+  }
+},
+{
+  "model": "basesite.tag",
+  "pk": 125,
+  "fields": {
+    "tag": "software development",
+    "slug": "software-development"
+  }
+}
 ]

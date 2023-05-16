@@ -1,0 +1,7 @@
+Django==4.1.7
+django-debug-toolbar==4.0.0
+
+pillow~=9.3.0
+
+uwsgi==2.0.21
+psycopg2==2.9.6

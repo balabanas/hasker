@@ -24,7 +24,8 @@
                         <div class="row mb-3">
                             <label for="id_email" class="col-sm-2 col-form-label">Email</label>
                             <div class="col-sm-6">
-                                <input type="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}" name="email" {% if form.email.value %}value="{{ form.email.value }}{% else %}value="{{ object.email }}{% endif %}"
+                                <input type="email" class="form-control{% if form.email.errors %} is-invalid{% endif %}"
+                                       name="email" {% if form.email.value %}value="{{ form.email.value }}"{% else %}value="{{ object.email }}"{% endif %}
                                        maxlength="254" id="id_email">
                             <div id="email_feedback" class="invalid-feedback">
                                     {{ form.email.errors|striptags }}
