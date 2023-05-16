@@ -3,8 +3,9 @@ Q&A site as Django application.
 
 ![img.png](docs/img/img.png)
 
-##Build/Run instructions
-###demo.env file
+
+## Build/Run instructions
+### demo.env file
 The repo comes with `demo.env` file. Use settings defined there or set your own before run.
 
 ###Run
