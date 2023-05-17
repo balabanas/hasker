@@ -22,16 +22,15 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 
 
-# copy entrypoint.sh
-COPY ./entrypoint.sh .
-COPY ./basesite/fixtures/install_fixtures.sh .
-RUN sed -i 's/\r$//g' /hasker/entrypoint.sh
-RUN sed -i 's/\r$//g' /hasker/install_fixtures.sh
-RUN chmod +x /hasker/entrypoint.sh
-RUN chmod +x /hasker/install_fixtures.sh
-
-# Copy the project code
+# copy the project code
 COPY . .
+
+# prepare scripts to run
+COPY ./basesite/fixtures/install_fixtures.sh .
+RUN sed -i 's/\r$//g' entrypoint.sh
+RUN sed -i 's/\r$//g' install_fixtures.sh
+RUN chmod +x entrypoint.sh
+RUN chmod +x install_fixtures.sh
 
 # Collect static files
 RUN python manage.py collectstatic --no-input
