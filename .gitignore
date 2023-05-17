@@ -220,5 +220,10 @@ ENV/
 
 
 # Local settings
-/files_media/avatars/
-/files_static/
+/files_media/
+# keep test logo
+!/files_media/avatars/user1logo.png
+!/files_media/avatars/user2logo.png
+!/files_media/avatars/user3logo.png
+files_static/
+!files_static/README.md
