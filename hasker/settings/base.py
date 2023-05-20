@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'django.contrib.sites',
+    'rest_framework',
 
     'basesite',
 ]
@@ -128,3 +129,8 @@ LOGOUT_REDIRECT_URL = reverse_lazy('list')
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  # todo: test real sending
 SITE_ID = 1
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 3
+}

@@ -16,11 +16,17 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
-from django.urls import path
+from django.urls import path, include
+from rest_framework import routers
 
 from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \
-    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer
+    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer, UserViewSet, \
+    GroupViewSet
 from hasker.settings.base import *
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -37,6 +43,9 @@ urlpatterns = [
     path('question-vote/<int:pk>', question_vote, name='question-upvote'),
     path('tag-typeahead', tag_typeahead, name='tag-typeahead'),
     path('accept-answer/<int:qpk>/<int:apk>', accept_answer, name='accept-answer'),
+
+    path('', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 ]
 
 if DEBUG:

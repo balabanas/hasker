@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
@@ -10,9 +10,11 @@ from django.views.decorators.http import require_GET
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormMixin, CreateView, UpdateView
 from django.views.generic.list import ListView, MultipleObjectMixin
+from rest_framework import viewsets, permissions
 
 from basesite.forms import QuestionCreateForm, AnswerForm, UserProfileForm, UserProfileChangeForm
 from basesite.models import Question, Answer, QuestionVotedBy, AnswerVotedBy, Tag
+from basesite.serializers import UserSerializer, GroupSerializer
 
 
 class QuestionListView(ListView):
@@ -230,3 +232,21 @@ class QuestionSearchListView(ListView):
         context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+    permission_classes = [permissions.IsAuthenticated]
