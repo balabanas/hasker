@@ -1,5 +1,6 @@
 Django==4.1.7
 django-debug-toolbar==4.0.0
+djangorestframework==3.14.0
 
 pillow~=9.3.0
 
