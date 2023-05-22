@@ -1,4 +1,5 @@
 {% load humanize %}
+{% if not page_obj %}<p class="lead">No questions found...</p>{% endif %}
 {% for question in page_obj %}
     <div class="row">
         <div class="col-sm-1 text-center">
