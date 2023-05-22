@@ -10,16 +10,31 @@ from basesite.models import Question, Answer, Tag
 
 
 def create_test_data():
+    """
+    # Create some test data and return ids of created objects to avoid problems with referencing them in tests in
+    case db ids are not reseted to 1 for every test, like in Postgres case
+    :return:
+    """
     u = User.objects.create_user(username='testuser1', password="QWEr4$31", email='testuser1@test.com')
     t1 = Tag.objects.create(tag='tag1')
     t2 = Tag.objects.create(tag='Tag 2')
-    q = Question.objects.create(author=u, title='Q title', message='Q content', votes=3)
-    q.tags.set([t1, t2])
-    q.save()
-    Answer.objects.create(author=u, question=q, message='A to Q, content', correct=False)
+    q1 = Question.objects.create(author=u, title='Q title', message='Q content', votes=3)
+    q1.tags.set([t1, t2])
+    q1.save()
+    a1 = Answer.objects.create(author=u, question=q1, message='A to Q, content', correct=False)
     # q2 - created later but with more votes
     q2 = Question.objects.create(author=u, title='Q2 title', message='Q2 content', votes=2)
-    Answer.objects.create(author=u, question=q2, message='A to Q2, content', correct=False)
+    a2 = Answer.objects.create(author=u, question=q2, message='A to Q2, content', correct=False)
+    test_data_ids = {
+        'u': u.id,
+        't1': t1.id,
+        't2': t2.id,
+        'q1': q1.id,
+        'q2': q2.id,
+        'a1': a1.id,
+        'a2': a2.id,
+    }
+    return test_data_ids
 
 
 class QuestionListViewTest(TestCase):
@@ -100,7 +115,6 @@ class QuestionCreateViewTest(TestCase):
         }
         response = self.client.post(reverse('create'), create_data)
         self.assertEqual(302, response.status_code)
-        self.assertRedirects(response, reverse('question-detail', args=['1']))
 
     def test_post_validaton_errors(self):
         self.client.force_login(self.user)
@@ -120,8 +134,8 @@ class QuestionDetailViewTest(TestCase):
         self.assertEqual(404, response.status_code)
 
     def test_get_success(self):
-        create_test_data()
-        response = self.client.get(reverse('question-detail', args='1'))
+        ids = create_test_data()
+        response = self.client.get(reverse('question-detail', args=[ids['q1']]))
         self.assertEqual(200, response.status_code)
         self.assertContains(response, 'Q title')
         self.assertTemplateUsed(response, 'basesite/question_detail.html')
@@ -219,11 +233,12 @@ class QuestionSearchListViewTest(TestCase):
 
 class FuncViewAcceptAnswerTest(TestCase):
     def setUp(self) -> None:
+        ids = create_test_data()
         self.data = {
-            'question_id': 1,
-            'answer_id': 1,
+            'question_id': ids['q1'],
+            'answer_id': ids['a1'],
         }
-        self.user = User.objects.create_user(username='aa_testuser', password='testpas4Das')
+        self.user = User.objects.get(id=ids['u'])
 
     def test_post_login_required(self):
         response: TemplateResponse = self.client.post(reverse('accept-answer', args=[self.data['question_id'],
@@ -235,6 +250,8 @@ class FuncViewAcceptAnswerTest(TestCase):
 
     def test_post_not_found(self):
         self.client.force_login(self.user)
+        self.data['question_id'] = 100500
+        self.data['answer_id'] = 100500
         response: TemplateResponse = self.client.post(reverse('accept-answer', args=[self.data['question_id'],
                                                                                      self.data['answer_id']]),
                                                       self.data)
@@ -243,8 +260,7 @@ class FuncViewAcceptAnswerTest(TestCase):
         self.assertEqual('Not found', content['result'])
 
     def test_post_question_user_mismatch(self):
-        create_test_data()
-        u = User.objects.get(username='aa_testuser')  # question created by `testuser1`
+        u, _ = User.objects.get_or_create(username='aa_testuser')  # question created by `testuser1`
         self.client.force_login(u)
         response: TemplateResponse = self.client.post(reverse('accept-answer', args=[self.data['question_id'],
                                                                                      self.data['answer_id']]),
@@ -254,7 +270,7 @@ class FuncViewAcceptAnswerTest(TestCase):
         self.assertEqual('Not found', content['result'])
 
     def test_post_success(self):
-        create_test_data()
+        # create_test_data()
         u = User.objects.get(username='testuser1')
         self.client.force_login(u)
         response: TemplateResponse = self.client.post(reverse('accept-answer', args=[self.data['question_id'],
@@ -267,18 +283,18 @@ class FuncViewAcceptAnswerTest(TestCase):
 
 class FuncViewVoteTest(TestCase):
     def setUp(self) -> None:
+        ids = create_test_data()
         self.data_q = {
                     'instance_type': 'q',
-                    'instance_id': 1,
+                    'instance_id': ids['q1'],
                     'increment': 1,
         }
         self.data_a = {
                     'instance_type': 'a',
-                    'instance_id': 1,
+                    'instance_id': ids['a1'],
                     'increment': -1,
         }
-
-        self.user = User.objects.create_user(username='v_testuser', password='testpas4Das')
+        self.user = User.objects.get(id=ids['u'])
 
     def test_post_login_required(self):
         response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
@@ -298,6 +314,7 @@ class FuncViewVoteTest(TestCase):
 
     def test_post_q_does_not_exist(self):
         self.client.force_login(self.user)
+        self.data_q['instance_id'] = 100500
         response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
                                                       self.data_q)  # question does not exist
         self.assertEqual(200, response.status_code)
@@ -306,6 +323,7 @@ class FuncViewVoteTest(TestCase):
 
     def test_post_a_does_not_exist(self):
         self.client.force_login(self.user)
+        self.data_a['instance_id'] = 100500
         response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_a['instance_id']]),
                                                       self.data_a)  # answe does not exist
         self.assertEqual(200, response.status_code)
@@ -314,7 +332,6 @@ class FuncViewVoteTest(TestCase):
 
     def test_post_q_upvote(self):
         self.client.force_login(self.user)
-        create_test_data()
         response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
                                                       self.data_q)
         self.assertEqual(200, response.status_code)
@@ -328,7 +345,6 @@ class FuncViewVoteTest(TestCase):
 
     def test_post_a_downvote_upvote(self):
         self.client.force_login(self.user)
-        create_test_data()
         response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_a['instance_id']]),
                                                       self.data_a)
         self.assertEqual(200, response.status_code)

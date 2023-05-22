@@ -158,7 +158,6 @@ def tag_typeahead(request):
     value = request.GET['query']
     tag_candidates = Tag.objects.filter(tag__icontains=value).values('id', 'tag')[:7]
     result = [{"value": tc['tag'], "label": tc['tag']} for tc in tag_candidates]
-    print('result: ', result)
     return JsonResponse(result, safe=False)
 
 
