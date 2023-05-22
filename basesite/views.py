@@ -112,15 +112,16 @@ def accept_answer(request, qpk: int, apk: int):
     if request.POST:
         user = request.user
         try:
+            Answer.objects.get(id=apk, question__id=qpk, question__author=user)  # just check if answer exists
             answers = Answer.objects.filter(question__id=qpk, question__author=user)
             answers.exclude(id=apk).update(correct=False)
-            answers.filter(id=apk).update(correct=True)
+            answers.filter(id=apk).update(correct=True)  # using update to avoid .save() and sending email as a result
         except Answer.DoesNotExist:
             return JsonResponse({'result': 'Not found'})
     return JsonResponse({'result': 'Success'})
 
 
-def question_vote(request, pk):
+def vote(request, pk):
     if not request.user.is_authenticated:
         return JsonResponse({'result': 'Login required'})
     if request.POST:
@@ -134,7 +135,7 @@ def question_vote(request, pk):
             q = Question.objects.get(pk=pk)
             if instance_type == 'a':
                 a = Answer.objects.get(pk=instance_id)
-        except (ValueError, ObjectDoesNotExist):
+        except (ValueError, Question.DoesNotExist, Answer.DoesNotExist):
             # todo: log?
             return JsonResponse({'result': 'Wrong request data'})
         if instance_type == 'a':

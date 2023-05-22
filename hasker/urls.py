@@ -18,8 +18,8 @@ from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path
 
-from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \
-    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer
+from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, \
+    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer, vote
 from hasker.settings.base import *
 
 urlpatterns = [
@@ -34,7 +34,7 @@ urlpatterns = [
     path('login', HaskerLoginView.as_view(), name='login'),
     path('logout', LogoutView.as_view(), name='logout'),
     path('question/<int:pk>', QuestionDetailView.as_view(), name='question-detail'),
-    path('question-vote/<int:pk>', question_vote, name='question-upvote'),
+    path('vote/<int:pk>', vote, name='vote'),
     path('tag-typeahead', tag_typeahead, name='tag-typeahead'),
     path('accept-answer/<int:qpk>/<int:apk>', accept_answer, name='accept-answer'),
 ]
