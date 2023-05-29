@@ -17,16 +17,19 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth.views import LogoutView
 from django.urls import path, include
+from django.views.generic import TemplateView
 from rest_framework import routers
+from rest_framework.schemas import get_schema_view
 
+from basesite import views
 from basesite.views import QuestionListView, QuestionCreateView, HaskerLoginView, QuestionDetailView, question_vote, \
-    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer, UserViewSet, \
-    GroupViewSet
+    tag_typeahead, SignUpView, SettingsView, QuestionTagListView, QuestionSearchListView, accept_answer
 from hasker.settings.base import *
 
 router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'groups', GroupViewSet)
+router.register(r'questions', views.QuestionViewSet, basename='api-question')
+router.register(r'questions/(?P<question_id>\d+)/answers', views.AnswerViewSet, basename='api-answer')
+router.register(r'questions/(?P<question_id>\d+)/tags', views.QuestionTagViewSet, basename='api-tag')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -44,8 +47,16 @@ urlpatterns = [
     path('tag-typeahead', tag_typeahead, name='tag-typeahead'),
     path('accept-answer/<int:qpk>/<int:apk>', accept_answer, name='accept-answer'),
 
-    path('', include(router.urls)),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api/v1/', include(router.urls)),
+    path('api/v1/openapi', get_schema_view(
+        title="Hasker",
+        description="Q&A traversing API",
+        version="1.0.0"
+    ), name='openapi-schema'),
+    path('api/v1/swagger-ui/', TemplateView.as_view(
+        template_name='basesite/swagger-ui.html',
+        extra_context={'schema_url': 'openapi-schema'}
+    ), name='swagger-ui'),
 ]
 
 if DEBUG:

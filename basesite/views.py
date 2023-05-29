@@ -1,5 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
@@ -10,11 +10,14 @@ from django.views.decorators.http import require_GET
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import FormMixin, CreateView, UpdateView
 from django.views.generic.list import ListView, MultipleObjectMixin
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters, pagination, mixins
+from rest_framework.decorators import action
+from rest_framework.exceptions import NotFound
+from rest_framework.response import Response
 
 from basesite.forms import QuestionCreateForm, AnswerForm, UserProfileForm, UserProfileChangeForm
 from basesite.models import Question, Answer, QuestionVotedBy, AnswerVotedBy, Tag
-from basesite.serializers import UserSerializer, GroupSerializer
+from basesite.serializers import QuestionSerializer, AnswerSerializer, TagSerializer
 
 
 class QuestionListView(ListView):
@@ -201,7 +204,7 @@ class QuestionSearchListView(ListView):
     paginate_by = 20
     template_name = 'basesite/search_results.html'
     query: str = ""
-    
+
     def get(self, *args, **kwargs):
         self.query: str = self.request.GET['q']
         return super(QuestionSearchListView, self).get(*args, **kwargs)
@@ -213,7 +216,7 @@ class QuestionSearchListView(ListView):
                 tag_slug = Tag.objects.get(tag__iexact=tag).slug
             except Tag.DoesNotExist:
                 tag_slug = tag
-            return redirect(reverse('tag-list', args=(tag_slug, )))
+            return redirect(reverse('tag-list', args=(tag_slug,)))
         return super(QuestionSearchListView, self).render_to_response(context, **response_kwargs)
 
     def get_ordering(self):
@@ -234,19 +237,69 @@ class QuestionSearchListView(ListView):
         return context
 
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
+class PageNumberPaginationWithCount(pagination.PageNumberPagination):
+    page_size = 20
+
+    def get_paginated_response(self, *args, **kwargs):
+        response = super(PageNumberPaginationWithCount, self).get_paginated_response(*args, **kwargs)
+        response.data['page_count'] = self.page.paginator.num_pages
+        return response
+
+    def get_paginated_response_schema(self, *args, **kwargs):
+        schema = super(PageNumberPaginationWithCount, self).get_paginated_response_schema(*args, **kwargs)
+        schema['properties']['page_count'] = {
+            'type': 'integer',
+            'example': 123,
+        }
+        return schema
 
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = PageNumberPaginationWithCount
+    http_method_names = ['get']
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'message', 'answers__message']
+    ordering_fields = ['date_created', 'votes']
+    ordering = ['-date_created']
+
+    @action(detail=False, methods=['get'], url_path='trending-questions', url_name='trending-list')
+    def trending_questions(self, request):
+        queryset = Question.trending.all()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
+
+class AnswerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = AnswerSerializer
+    pagination_class = PageNumberPaginationWithCount
+    permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ['get']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.paginator.page_size = 30
+
+    def get_queryset(self):
+        question_id = self.kwargs.get('question_id')
+        try:
+            q = Question.objects.get(pk=question_id)
+            return Answer.objects.filter(question=q)
+        except Question.DoesNotExist:
+            raise NotFound("Question not found.")
+
+
+class QuestionTagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    serializer_class = TagSerializer
+    pagination_class = None
+    permission_classes = [permissions.IsAuthenticated]
+    http_method_names = ['get']
+
+    def get_queryset(self):
+        question_id = self.kwargs.get('question_id')
+        try:
+            return Question.objects.get(pk=question_id).tags.all()
+        except Question.DoesNotExist:
+            raise NotFound("Question not found.")
