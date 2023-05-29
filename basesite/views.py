@@ -1,7 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
-from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import Q
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import redirect
@@ -45,7 +44,7 @@ class QuestionTagListView(ListView):
     template_name = 'basesite/question_tag_list.html'
 
     def get_queryset(self):
-        queryset = super(QuestionTagListView, self).get_queryset()
+        queryset = super().get_queryset()
         queryset = queryset.filter(tags__slug=self.kwargs['slug'])
         return queryset
 
@@ -88,7 +87,7 @@ class QuestionDetailView(FormMixin, MultipleObjectMixin, DetailView):
         context['form'] = form
         return context
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):
         user = request.user
         if not user.is_authenticated:
             return HttpResponseForbidden()
@@ -96,8 +95,7 @@ class QuestionDetailView(FormMixin, MultipleObjectMixin, DetailView):
         form = self.get_form()
         if form.is_valid():
             return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        return self.form_invalid(form)
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -141,7 +139,6 @@ def vote(request, pk):
             if instance_type == 'a':
                 a = Answer.objects.get(pk=instance_id)
         except (ValueError, Question.DoesNotExist, Answer.DoesNotExist):
-            # todo: log?
             return JsonResponse({'result': 'Wrong request data'})
         if instance_type == 'a':
             voted_by = AnswerVotedBy.objects.get_or_create(user=user, answer=a)[0]
@@ -168,7 +165,7 @@ def tag_typeahead(request):
 
 class HaskerLoginView(LoginView):
     def get_context_data(self, **kwargs):
-        context = super(HaskerLoginView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['trending_object_list'] = Question.trending.all()
         return context
 
@@ -208,7 +205,7 @@ class QuestionSearchListView(ListView):
 
     def get(self, *args, **kwargs):
         self.query: str = self.request.GET['q']
-        return super(QuestionSearchListView, self).get(*args, **kwargs)
+        return super().get(*args, **kwargs)
 
     def render_to_response(self, context, **response_kwargs):
         if self.query.strip().startswith('tag:'):
@@ -218,7 +215,7 @@ class QuestionSearchListView(ListView):
             except Tag.DoesNotExist:
                 tag_slug = tag
             return redirect(reverse('tag-list', args=(tag_slug,)))
-        return super(QuestionSearchListView, self).render_to_response(context, **response_kwargs)
+        return super().render_to_response(context, **response_kwargs)
 
     def get_ordering(self):
         ordering = self.request.GET.get('ordering', '-date_created')
@@ -227,7 +224,7 @@ class QuestionSearchListView(ListView):
         return '-date_created'
 
     def get_queryset(self):
-        queryset = super(QuestionSearchListView, self).get_queryset()
+        queryset = super().get_queryset()
         queryset = queryset.filter(Q(title__icontains=self.query) | Q(message__icontains=self.query) |
                                    Q(answers__message__icontains=self.query)).distinct()
         return queryset
@@ -242,12 +239,12 @@ class PageNumberPaginationWithCount(pagination.PageNumberPagination):
     page_size = 20
 
     def get_paginated_response(self, *args, **kwargs):
-        response = super(PageNumberPaginationWithCount, self).get_paginated_response(*args, **kwargs)
+        response = super().get_paginated_response(*args, **kwargs)
         response.data['page_count'] = self.page.paginator.num_pages
         return response
 
     def get_paginated_response_schema(self, *args, **kwargs):
-        schema = super(PageNumberPaginationWithCount, self).get_paginated_response_schema(*args, **kwargs)
+        schema = super().get_paginated_response_schema(*args, **kwargs)
         schema['properties']['page_count'] = {
             'type': 'integer',
             'example': 123,
@@ -300,8 +297,8 @@ class AnswerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         try:
             q = Question.objects.get(pk=question_id)
             return Answer.objects.filter(question=q)
-        except Question.DoesNotExist:
-            raise NotFound("Question not found.")
+        except Question.DoesNotExist as exc:
+            raise NotFound("Question not found.") from exc
 
 
 class QuestionTagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):

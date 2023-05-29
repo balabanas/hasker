@@ -39,7 +39,6 @@ class TestQuestionViewSet(APITestCase):
         ids = create_test_data()
         url = reverse('api-tag-list', args=(ids['q2'], ))
         response = self.client.get(url)
-        print(dir(type(response.data)))
         self.assertEqual('ReturnList', type(response.data).__name__)
 
     def test_return_tags(self):
