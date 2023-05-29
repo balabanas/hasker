@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.urls import reverse, exceptions
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -47,7 +49,18 @@ class TestAnswerViewSet(APITestCase):
         ids = create_test_data()
         url = reverse('api-answer-list', args=(ids['q2'], ))
         response = self.client.get(url)
-        self.assertEqual(1, len(response.data['results']))
+        self.assertEqual(3, len(response.data['results']))
+
+    def test_change_ordering(self):
+        ids = create_test_data()
+        url = reverse('api-answer-list', args=(ids['q2'], ))  # default ordering: -date_created
+        response = self.client.get(url)
+        dates = [datetime.strptime(q['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ') for q in response.data['results']]
+        self.assertEqual(sorted(dates, reverse=True), dates)
+        url = reverse('api-answer-list', args=(ids['q2'], )) + '?ordering=date_created'
+        response = self.client.get(url)
+        dates = [datetime.strptime(q['date_created'], '%Y-%m-%dT%H:%M:%S.%fZ') for q in response.data['results']]
+        self.assertEqual(sorted(dates), dates)
 
     def test_return_model_fields_expected(self):
         ids = create_test_data()
