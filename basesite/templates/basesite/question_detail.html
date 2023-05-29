@@ -121,7 +121,7 @@
 
         function update_votes(instance_type, instance_id, increment) {
             $.ajax({
-                url: "/question-vote/" + question_id,
+                url: "/vote/" + question_id,
                 type: "post",
                 data: {
                     instance_type: instance_type,
