@@ -255,6 +255,12 @@ class PageNumberPaginationWithCount(pagination.PageNumberPagination):
 
 
 class QuestionViewSet(viewsets.ModelViewSet):
+    """
+    View set that returns a list of all or filtered questions, trending questions, or detailed question.
+    Default filter: off. Enable it by including ?search query to url
+    Default sorting: date of creaton, reversed. Alter it by ?ordering query:-date_created, votes, -votes. Searches
+    in title and message in Question, and in message of Answer objects to that Questions
+    """
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
     permission_classes = [permissions.IsAuthenticated]
@@ -273,10 +279,16 @@ class QuestionViewSet(viewsets.ModelViewSet):
 
 
 class AnswerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    Returns a list of answers associated with a specific question id
+    """
     serializer_class = AnswerSerializer
     pagination_class = PageNumberPaginationWithCount
     permission_classes = [permissions.IsAuthenticated]
     http_method_names = ['get']
+    filter_backends = [filters.OrderingFilter]
+    ordering_fields = ['date_created', 'votes']
+    ordering = ['-date_created']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -292,6 +304,9 @@ class AnswerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
 
 
 class QuestionTagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """
+    Returns a list of tags associated with a specific question id
+    """
     serializer_class = TagSerializer
     pagination_class = None
     permission_classes = [permissions.IsAuthenticated]
