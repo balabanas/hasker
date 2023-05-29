@@ -1,3 +1,4 @@
+import base64
 from urllib.parse import urlparse
 
 from django.urls import reverse, exceptions
@@ -16,7 +17,7 @@ class TestQuestionViewSet(APITestCase):
         response = self.client.get(url)
         self.assertEqual(status.HTTP_404_NOT_FOUND, response.status_code)
         with self.assertRaises(exceptions.NoReverseMatch):
-            reverse('api-question-detail', args=('not_a_number', 'another_arg', ))
+            reverse('api-question-detail', args=('not_a_number', 'another_arg',))
 
     def test_unauthenticated(self):
         self.client.logout()
@@ -24,6 +25,23 @@ class TestQuestionViewSet(APITestCase):
         response = self.client.get(url)
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
         self.assertEqual({'detail'}, set(response.data.keys()))
+
+    def test_basic_authentication(self):
+        self.client.logout()
+        create_test_data()
+        url = reverse('api-question-list')
+        auth = ('testuser1', '_QWEr4$31')  # wrong pwd
+        response = self.client.get(url, **{'HTTP-ACCEPT': 'application/json',
+                                           'HTTP_AUTHORIZATION': 'Basic ' + base64.b64encode(
+                                               ':'.join(auth).encode()).decode()})
+        self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
+
+        auth = ('testuser1', 'QWEr4$31')
+        response = self.client.get(url, **{'HTTP-ACCEPT': 'application/json',
+                                           'HTTP_AUTHORIZATION': 'Basic ' + base64.b64encode(
+                                               ':'.join(auth).encode()).decode()})
+
+        self.assertEqual(status.HTTP_200_OK, response.status_code)
 
     def test_empty_response_ok(self):
         url = reverse('api-question-list')
