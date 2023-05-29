@@ -20,6 +20,29 @@ To spin them up, from the source root (where the docker-compose.yml file is loca
 Then in your browser, open:
  * `http://localhost:8000/` 
 
+### API
+Entrypoint: `http://localhost:8000/api/v1/`
+
+See `swagger` for the details: `http://localhost:8000/api/v1/swagger-ui`
+
+Authentication:
+* Basic + session. Any Django user will be authorized to get objects.
+* ex.: `curl -X 'GET' 'http://localhost:8000/api/v1/questions/' -H 'accept: application/json' -u testuser1:PWDtU234%%`
+
+
+Implements:
+* GET only!
+* Index of questions, with pagination, trending questions
+* Index with search (in Q title, and Q and A messages):
+  * `?search=<searchquery>`
+* Retrieve specific question by id
+* List answers to a specific question (by id)
+* Q and A can be ordered for pagination by date of creation or number of votes:
+  * `?ordering=date_created`
+  * `?ordering=-date_created`
+  * `?ordering=votes`
+  * `?ordering=-votes`
+
 ### Fixtures
 The repo comes with pre-populated database content for demo purposes. Thanks to `chatGPT` for providing necessary mockups for questions and answers! This content in form of fixtures is automatically (re)installed to the database on every run of the `web` docker container.
 
@@ -46,14 +69,14 @@ Run:
 
 ## Dependencies and acknowledgments
 1. Python (v3.10)
-2. Django (v4.1.7) A high-level Python web framework - [Official Website](https://www.djangoproject.com/)
-3. Bootstrap (v5.0.2) - Front-end CSS framework - [Official Website](https://getbootstrap.com/)
-4. PostgreSQL (v15.3)
-5. psycopg2 (v2.9.6)
-6. Docker (v20.10.22)
-7. Docker Compose (v2.15.1)
-8. uWSGI (v2.0.21)
-9. ChatGPT (ChatGPT May 12 Version) [Official Website](https://chat.openai.com/)
-
+2. [Django](https://www.djangoproject.com/) (v4.1.7) A high-level Python web framework
+3. [Django REST framework](https://www.django-rest-framework.org/) (v3.14.0) + [swagger](https://swagger.io/) 
+5. [Bootstrap](https://getbootstrap.com/) (v5.0.2) - Front-end CSS framework
+6. PostgreSQL (v15.3)
+7. psycopg2 (v2.9.6)
+8. Docker (v20.10.22)
+9. Docker Compose (v2.15.1)
+10. uWSGI (v2.0.21)
+11. [ChatGPT](https://chat.openai.com/) (ChatGPT May 12 Version)
 
 All dependencies are distributed under their respective licenses.
