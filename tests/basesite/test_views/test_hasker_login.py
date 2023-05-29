@@ -1,9 +1,9 @@
 from django.template.response import TemplateResponse
 from django.test import TestCase
 from django.urls import reverse
+from django.utils.encoding import smart_str
 
 from tests.basesite.utils import create_test_data
-from django.utils.encoding import smart_str
 
 
 class HaskerLoginViewTest(TestCase):

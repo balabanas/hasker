@@ -50,7 +50,7 @@ class Tag(models.Model):
 
 class TrendingQuestionManager(models.Manager):
     def get_queryset(self):
-        return super(TrendingQuestionManager, self).get_queryset().order_by('-votes')[:20]
+        return super().get_queryset().order_by('-votes')[:20]
 
 
 class Question(Message):

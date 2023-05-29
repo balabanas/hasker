@@ -3,9 +3,9 @@ import json
 from django.contrib.auth.models import User
 from django.template.response import TemplateResponse
 from django.test import TestCase
+from django.urls import reverse
 
 from tests.basesite.utils import create_test_data
-from django.urls import reverse
 
 
 class FuncViewAcceptAnswerTest(TestCase):

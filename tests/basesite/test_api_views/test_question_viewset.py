@@ -56,7 +56,7 @@ class TestQuestionViewSet(APITestCase):
         self.assertEqual(set(fields_expected), set(response.data.keys()))
 
     def test_return_model_fields_expected(self):
-        ids = create_test_data()
+        create_test_data()
         url = reverse('api-question-list')
         response = self.client.get(url)
         fields_expected = ['author', 'title', 'message', 'date_created', 'votes', 'url', 'has_tags', 'tags_url',
