@@ -24,7 +24,7 @@ class Message(models.Model):
                                validators=[
                                    MinLengthValidator(5, 'Message is expected to contain at least 5 characters')
                                ])
-    author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
+    author = models.ForeignKey('auth.User', related_name="%(class)ss", on_delete=models.CASCADE)
     date_created = models.DateTimeField(verbose_name='Date of creation', default=timezone.now)
     votes = models.IntegerField(verbose_name="Number of votes for the Q", default=0)
 
@@ -69,6 +69,26 @@ class Question(Message):
 
     def get_absolute_url(self):
         return reverse("question-detail", kwargs={"pk": self.pk})
+
+    @property
+    def api_url(self):
+        return reverse("api-question-detail", kwargs={"pk": self.pk})
+
+    @property
+    def has_answers(self):
+        return self.answers.exists()
+
+    @property
+    def api_answers_url(self):
+        return reverse('api-answer-list', args=[self.id])
+
+    @property
+    def has_tags(self):
+        return self.tags.exists()
+
+    @property
+    def api_tags_url(self):
+        return reverse("api-tag-list", args=[self.id])
 
 
 class QuestionVotedBy(models.Model):
