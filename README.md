@@ -8,7 +8,7 @@ Q&A site as Django application.
 ### demo.env file
 The repo comes with `demo.env` file. Use settings defined there or set your own before run.
 
-###Run
+### Run
 The soluton is shipped in 3 Docker containers:
  * web (with django application)
  * db (postgres)
