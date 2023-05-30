@@ -43,6 +43,7 @@ router.register(r'questions/(?P<question_id>\d+)/answers', views.AnswerViewSet, 
 router.register(r'questions/(?P<question_id>\d+)/tags', views.QuestionTagViewSet, basename='api-tag')
 
 urlpatterns = [
+    path('info/', views.infoview, name='diagnostic'),
     path('admin/', admin.site.urls),
 
     path('', QuestionListView.as_view(), name='list'),

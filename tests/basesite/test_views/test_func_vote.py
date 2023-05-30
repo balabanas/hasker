@@ -37,7 +37,7 @@ class FuncViewVoteTest(TestCase):
                                                       self.data_q)
         self.assertEqual(200, response.status_code)
         content = json.loads(response.content)
-        self.assertEqual('Wrong request data', content['result'])
+        self.assertEqual('Wrong request data (increment or instance_type)', content['result'])
 
     def test_post_q_does_not_exist(self):
         self.client.force_login(self.user)
@@ -46,7 +46,7 @@ class FuncViewVoteTest(TestCase):
                                                       self.data_q)  # question does not exist
         self.assertEqual(200, response.status_code)
         content = json.loads(response.content)
-        self.assertEqual('Wrong request data', content['result'])
+        self.assertIn('Wrong request data: ', content['result'])
 
     def test_post_a_does_not_exist(self):
         self.client.force_login(self.user)
@@ -55,7 +55,7 @@ class FuncViewVoteTest(TestCase):
                                                       self.data_a)  # answe does not exist
         self.assertEqual(200, response.status_code)
         content = json.loads(response.content)
-        self.assertEqual('Wrong request data', content['result'])
+        self.assertIn('Wrong request data: ', content['result'])
 
     def test_post_q_upvote(self):
         self.client.force_login(self.user)
@@ -72,24 +72,24 @@ class FuncViewVoteTest(TestCase):
 
     def test_post_a_downvote_upvote(self):
         self.client.force_login(self.user)
-        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_a['instance_id']]),
+        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
                                                       self.data_a)
         self.assertEqual(200, response.status_code)
         content = json.loads(response.content)
-        self.assertEqual('Success', content['result'])  # downvoted
+        self.assertEqual('Success', content['result'])  # down-voted
         # now, upvote
         self.data_a['increment'] = 1
-        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_a['instance_id']]),
+        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
                                                       self.data_a)
         content = json.loads(response.content)
         self.assertEqual('Success', content['result'])
         # upvote once again
-        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_a['instance_id']]),
+        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
                                                       self.data_a)
         content = json.loads(response.content)
         self.assertEqual('Success', content['result'])
         # and again ... now it is not possible
-        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_a['instance_id']]),
+        response: TemplateResponse = self.client.post(reverse('vote', args=[self.data_q['instance_id']]),
                                                       self.data_a)
         content = json.loads(response.content)
         self.assertEqual('Already voted', content['result'])

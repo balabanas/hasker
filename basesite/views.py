@@ -1,8 +1,10 @@
+import json
+
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponseForbidden
+from django.http import JsonResponse, HttpResponseForbidden, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_GET
@@ -134,12 +136,12 @@ def vote(request, pk):
             instance_type = str(request.POST['instance_type'])
             instance_id = int(request.POST['instance_id'])
             if increment not in (-1, 1) or instance_type not in ('a', 'q'):
-                return JsonResponse({'result': 'Wrong request data'})
+                return JsonResponse({'result': 'Wrong request data (increment or instance_type)'})
             q = Question.objects.get(pk=pk)
             if instance_type == 'a':
                 a = Answer.objects.get(pk=instance_id)
-        except (ValueError, Question.DoesNotExist, Answer.DoesNotExist):
-            return JsonResponse({'result': 'Wrong request data'})
+        except (ValueError, Question.DoesNotExist, Answer.DoesNotExist) as exc:
+            return JsonResponse({'result': 'Wrong request data: ' + str(exc)})
         if instance_type == 'a':
             voted_by = AnswerVotedBy.objects.get_or_create(user=user, answer=a)[0]
             instance = a
@@ -299,6 +301,16 @@ class AnswerViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
             return Answer.objects.filter(question=q)
         except Question.DoesNotExist as exc:
             raise NotFound("Question not found.") from exc
+
+
+def infoview(request):
+    info = {
+        'host': request.get_host(),
+        'port': request.get_port(),
+        'path': request.build_absolute_uri()
+    }
+    info = json.dumps(info)
+    return HttpResponse(info, content_type='application/json')
 
 
 class QuestionTagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
