@@ -82,7 +82,7 @@ class QuestionDetailView(FormMixin, MultipleObjectMixin, DetailView):
         context['form'] = form
         return context
 
-    def post(self, request):
+    def post(self, request, pk):  # pk is not used here, but view passes it anyway
         user = request.user
         if not user.is_authenticated:
             return HttpResponseForbidden()
