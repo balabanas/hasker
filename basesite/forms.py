@@ -45,27 +45,42 @@ class UserProfileForm(UserCreationForm):
         super().__init__(*args, **kwargs)
         self.fields['email'].required = True
 
+    def clean_email(self):
+        email_value = self.cleaned_data.get('email')
+        if email_value:
+            if UserProfile.objects.filter(email=email_value).exists():
+                raise forms.ValidationError("User with this email is already registered.")
+        return email_value
+
     def save(self, commit=True):
         user = super().save()
-        UserProfile.objects.create(user=user, avatar=self.cleaned_data['avatar'])
+        UserProfile.objects.create(user=user, email=self.cleaned_data['email'], avatar=self.cleaned_data['avatar'])
         return user
 
 
 class UserProfileChangeForm(UserChangeForm):
     avatar = forms.ImageField(required=False)
+    email = forms.EmailField(required=True)
     clear_avatar = forms.BooleanField(required=False)
 
     class Meta(UserCreationForm.Meta):
         fields = ('email', 'avatar', 'clear_avatar', )
 
+    def clean_email(self):
+        email_value = self.cleaned_data.get('email')
+        if email_value:
+            if UserProfile.objects.filter(email=email_value).exclude(user=self.instance).exists():
+                raise forms.ValidationError("The email specified belongs to another user.")
+        return email_value
+
     def save(self, commit=True):
         super().save()
+        up, _ = UserProfile.objects.get_or_create(user=self.instance)
         if self.cleaned_data['avatar']:
-            up, _ = UserProfile.objects.get_or_create(user=self.instance)
             up.avatar = self.cleaned_data['avatar']
-            up.save()
         if self.cleaned_data['clear_avatar']:
-            up = UserProfile.objects.get(user=self.instance)
             up.avatar = None
-            up.save()
+        if self.cleaned_data['email']:
+            up.email = self.cleaned_data['email']
+        up.save()
         return self.instance

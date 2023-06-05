@@ -11,11 +11,10 @@ from django.urls import reverse
 from django.utils import timezone
 from django.utils.text import slugify
 
-User._meta.get_field('email')._unique = True
-
 
 class UserProfile(models.Model):
     user = models.OneToOneField('auth.User', on_delete=models.CASCADE)
+    email = models.EmailField(unique=True)
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name='Avatar image')
 
 
