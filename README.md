@@ -15,7 +15,7 @@ The soluton is shipped in 3 Docker containers:
  * nginx (with nginx)
 
 To spin them up, from the source root (where the docker-compose.yml file is located), run:
- * `docker compose up`
+ * `docker compose --env-file ./demo.env up --build`
 
 Then in your browser, open:
  * `http://localhost:8000/` 

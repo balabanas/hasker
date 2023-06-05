@@ -3,14 +3,14 @@ services:
   web:
     build: .
     command: >
-      bash -c "python manage.py migrate && ./install_fixtures.sh && uwsgi --http 0.0.0.0:8080 --module hasker.wsgi"
+      bash -c "python manage.py migrate && ./install_fixtures.sh && uwsgi --http 0.0.0.0:${APP_SERVER_PORT} --module hasker.wsgi"
     env_file:
       - demo.env
     volumes:
       - static_volume:/hasker/files_static
       - media_volume:/hasker/files_media
     ports:
-      - "8080:8080"
+      - "${APP_SERVER_PORT}:${APP_SERVER_PORT}"
     depends_on:
       - db
     networks:
@@ -19,15 +19,18 @@ services:
   nginx:
     image: nginx:latest
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
       - static_volume:/files_static
       - media_volume:/files_media
+    env_file:
+      - demo.env
     ports:
-      - "8000:80"
+      - "${HOST_SERVER_PORT}:${NGINX_SERVER_PORT}"
     depends_on:
       - web
     networks:
       - app-network
+    command: /bin/bash -c "envsubst < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf && nginx -g 'daemon off;'"
 
   db:
     image: postgres:latest
