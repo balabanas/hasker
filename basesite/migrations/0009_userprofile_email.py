@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='userprofile',
             name='email',
-            field=models.EmailField(default='aaa@test.com', max_length=254, unique=True),
+            field=models.EmailField(default="defaultemail@localhost", max_length=254, unique=True, null=False),
             preserve_default=False,
         ),
     ]

@@ -4,6 +4,7 @@
   "pk": 16,
   "fields": {
     "user": 13,
+    "email": "testuser1@test.com",
     "avatar": "avatars/user1logo.png"
   }
 },
@@ -12,6 +13,7 @@
   "pk": 17,
   "fields": {
     "user": 14,
+    "email": "testuser2@test.com",
     "avatar": "avatars/user2logo.png"
   }
 },
@@ -20,6 +22,7 @@
   "pk": 18,
   "fields": {
     "user": 15,
+    "email": "testuser3@test.com",
     "avatar": "avatars/user3logo.png"
   }
 }
