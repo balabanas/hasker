@@ -11,8 +11,8 @@
 @REM python manage.py loaddata basesite/fixtures/question.json
 @REM python manage.py loaddata basesite/fixtures/answer.json
 
-python manage.py loaddata basesite/fixtures/user.json
-python manage.py loaddata basesite/fixtures/userprofile.json
-python manage.py loaddata basesite/fixtures/tag.json
-python manage.py loaddata basesite/fixtures/question.json
-python manage.py loaddata basesite/fixtures/answer.json
+python manage.py loaddata basesite/fixtures/user.json --settings hasker.settings.local
+python manage.py loaddata basesite/fixtures/userprofile.json --settings hasker.settings.local
+python manage.py loaddata basesite/fixtures/tag.json --settings hasker.settings.local
+python manage.py loaddata basesite/fixtures/question.json --settings hasker.settings.local
+python manage.py loaddata basesite/fixtures/answer.json --settings hasker.settings.local
