@@ -12,7 +12,7 @@ COPY requirements_prod.txt .
 
 # Install dependencies including uwsgi
 RUN apt-get update \
-    && apt-get install -y netcat \
+    && apt-get install -y netcat-traditional \
     && apt-get install -y --no-install-recommends \
         build-essential \
         python3-dev \
